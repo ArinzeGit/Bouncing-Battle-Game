@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"> 
+
+<head>
+  <title>Bouncing Battle</title>
+  <meta charset="utf-8"/>
+  <script src="js/script.js"></script>
+  <link rel="stylesheet" href="css/style.css"> 
+</head>
+
+<body>
+  <header>
+    <h1 class="center"><span class="green">B</span><span class=orange>O</span><span class="green">U</span><span class=red>N</span><span class="green">C</span><span class=blue>I</span><span class="green">N</span><span class=purple>G </span><span class="green">B</span><span class=blue>A</span><span class="green">T</span><span class=red>T</span><span class="green">L</span><span class=orange>E</span></h1>
+    <p class="center">Don't let the ball go without a hit!</p>
+  </header>
+
+  <main>
+    <section id="gameSection">
+      <div id="player1Div">
+        <h2 class="p1Color">Player 1</h2>
+        <p>Control paddle using the 'w' and 's' keys</p>
+        <label for="player1ColorSelector">Choose your color:</label>
+        <select id="player1ColorSelector">
+          <option value="dodgerblue" class="blue">Blue</option>
+          <option value="mediumseagreen" class="green" selected>Green</option>
+          <option value="violet" class="purple">Purple</option>
+          <option value="tomato" class="red">red</option>
+          <option value="orange" class="orange">Orange</option>
+        </select>
+        <h2 class="p1Color">Score: <span id="player1Score">0</span> </h2>
+        <hr>
+        <h1 class="p1Color center winStatus" id="winStatus1"></h1>
+      </div>
+
+      <div id="canvasDiv">
+        <canvas id="gameCanvas" width="500" height="500"></canvas>
+      </div>
+      
+      <div id="player2Div">
+        <h2 class="p2Color">Player 2</h2>
+        <p>Control paddle using the 'arrow up' and 'arrow down' keys</p>
+        <label for="player2ColorSelector">Choose your color:</label>
+        <select id="player2ColorSelector">
+          <option value="dodgerblue" class="blue">Blue</option>
+          <option value="mediumseagreen" class="green">Green</option>
+          <option value="violet" class="purple">Purple</option>
+          <option value="tomato" class="red">red</option>
+          <option value="orange" class="orange" selected>Orange</option>
+        </select>
+        <h2 class="p2Color">Score: <span id="player2Score">0</span> </h2>
+        <hr>
+        <h1 class="p2Color center winStatus" id="winStatus2"></h1>
+      </div>
+    </section>
+
+    <section id="buttonSection">
+      <button id="playPauseButton">PLAY</button>
+      <button id="muteButton">MUTE</button>
+      <div id="replayButtonDiv"></div>
+      <div id="dropdown">
+         <button id="dropdownButton">About</button>
+         <div id="dropdownContent">
+            <p>Developer Name: Arinzechukwu Dennings Owoh (Arinze)</p>
+            <p>Role: Game Developer</p>
+            <hr>
+            <p>Contact Information:</p>
+            <a href="mailto:arinzeowoh@gmail.com" target="_blank">Email</a> 
+            <a href="https://github.com/ArinzeGit" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/dennings-owoh-4839971b1/" target="_blank">LinkedIn</a>
+            <a href="https://www.instagram.com/_.arinze._/" target="_blank">Instagram</a>
+            <a href="https://twitter.com/Arinze98433402" target="_blank">Twitter</a>
+            <hr>
+            <div id="license">
+              <p>Third-Party Assets Attribution:</p>
+              <ul>
+                <li>
+                  "TRANCER" by Gunnar Olsen (Licensed under<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank">CC-BY 3.0</a>)
+                </li>
+                <li>
+                  "MUSIC BOX GAME OVER II" by Kim Lightyear (Licensed under<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank">CC-BY 3.0</a>)
+                </li>
+                <li>
+                  "BAD SOUND #2" by Remaxim (Licensed under<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank">GPL 2.0</a><a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3.0</a><a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CC-BY-SA 3.0</a>)
+                </li>
+              </ul>
+              <p>License Information:</p>
+              <ul>
+                <li>
+                  This game is licensed under the GNU General Public License version 3.0 (<a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL 3.0</a>). You are free to use, modify, and distribute this game under the terms of the GPL 3.0 license.
+                </li>
+              </ul>
+            </div>
+         </div>
+      </div>
+    </section>
+
+    <section>
+      <audio id="gameOverSound" src="assets/gameOverSound.mp3"></audio>
+      <audio id="obstacleSound" src="assets/obstacleSound.wav"></audio>
+      <audio id="powerUpSound" src="assets/powerUpSound.wav"></audio>
+      <audio id="playerSound" src="assets/playerSound.mp3"></audio>
+      <audio id="missSound" src="assets/missSound.wav"></audio>
+      <audio id="backgroundMusic" src="assets/backgroundMusic.mp3" loop></audio>
+    </section>
+  </main>
+</body>
+
+</html>
