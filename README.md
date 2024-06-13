@@ -1,4 +1,4 @@
-# Bouncing Battle
+# Bouncing Batttle
 
 ![](assets/BouncingBattleScreenshot.PNG)
 
