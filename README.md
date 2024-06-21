@@ -4,7 +4,7 @@
 
 ## Context and Description
 
-This is a Web Based PC Multiplayer Game. Two players control their paddles using keyboard to hit the ball and gain points when opponent misses. For added unpredictability, spinning asteroids fall and deflect the ball. Ball is weightless like ping pong in outer space. You can view a brief **Demo** [here](https://vimeo.com/924799957?share=copy) showcasing gameplay. This game features dynamic visuals, immersive sound effects, and complex ball deflection logic. I did this project to practice Vanilla JavaScript, build something robust with no frameworks or dependencies to convince myself that I was ready to learn React Framework. The features are:
+This is a Web Based PC Multiplayer Game. Two players control their paddles using keyboard to hit the ball and gain points when opponent misses. For added unpredictability, spinning asteroids fall and deflect the ball. Ball is weightless like ping pong in outer space. You can view a brief **Demo** [here](https://vimeo.com/924799957?share=copy) showcasing gameplay. Bouncing Battle features dynamic visuals, immersive sound effects, and complex ball deflection logic. I did this project to practice `Vanilla JavaScript`, build something robust with no frameworks or dependencies to convince myself that I was ready to learn `React` Framework. The features are:
 
 - Two-Player mode
 - Customizable Player paddles
