@@ -22,6 +22,7 @@ h1.center{
 p.center{
   margin-top:0.2em ;
   margin-bottom:0.5em ;
+  word-spacing: 3px;
 }
 
 #player1Div, #player2Div {
@@ -123,7 +124,6 @@ select{
 
 #dropdown {
   position: relative;
-  display: inline-block;
   float: right;
 }
 
