@@ -49,5 +49,5 @@ This game is licensed under the GNU General Public License version 3.0 ([GPL 3.0
 
 ## Contact
 
-Developer Name: Arinzechukwu Dennings Owoh (Arinze)  
+Developer Name: Dennings Owoh  
 [Email](mailto:arinzeowoh@gmail.com), [GitHub](https://github.com/ArinzeGit), [LinkedIn](https://www.linkedin.com/in/dennings-owoh-4839971b1/), [Instagram](https://www.instagram.com/_.arinze._/), [Twitter](https://twitter.com/Arinze98433402)
