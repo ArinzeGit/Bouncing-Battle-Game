@@ -144,7 +144,9 @@ select{
 }
 
 #dropdownContent {
-  display: none;
+  opacity: 0;
+  clip-path: circle(0% at 100% 100%);
+  transition: opacity 1s ease, clip-path 0.5s ease;
   position: absolute;
   bottom: 40px;
   right:0px;
@@ -155,6 +157,11 @@ select{
   height: 500px;
   border-radius: 8px;
   padding: 15px;
+}
+
+#dropdownContent.show {
+  opacity: 1;
+  clip-path: circle(100% at 50% 50%);
 }
 
 #dropdownContent a {

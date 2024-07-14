@@ -28,8 +28,9 @@ window.onload = function init() {
     document.querySelectorAll('.p1Color').forEach(element =>{
       element.style.color=player1ColorSelector.value;
     });
-    if(replayButton)drawPlayer(player1); //if game has started, draw the player 
+    if(replayButton)drawPlayer(player1); //if game has started, draw the player with new color
   });
+
   const player2ColorSelector=document.querySelector('#player2ColorSelector');
   player2ColorSelector.addEventListener('change',function(){
     player2.color=player2ColorSelector.value;
@@ -43,17 +44,20 @@ window.onload = function init() {
   const winStatus2=document.querySelector('#winStatus2');
   const replayButtonDiv = document.querySelector('#replayButtonDiv');
   let replayButton; // = document.querySelector('#replayButton') but I cannot assign now since the element will be created dynamically.
+  
   const dropdownButton = document.querySelector("#dropdownButton");
   const dropdownContent = document.querySelector("#dropdownContent");
+ 
   dropdownButton.addEventListener("click", function () {
-    dropdownContent.style.display =(dropdownContent.style.display === "block") ? "none" : "block";
+    dropdownContent.classList.toggle("show");
   });
   document.addEventListener('click', function(evt){ //to close menu if you click outside of menu and button
-    if (!dropdownContent.contains(evt.target) && !dropdownButton.contains(evt.target)){
+    if (!dropdownContent.contains(evt.target) && !dropdownButton.contains(evt.target)&&dropdownContent.classList.contains("show")){
       //if I don't exclude button, when button is clicked for opening it will open and close menu due to event propagation
-      dropdownContent.style.display="none";
+      dropdownContent.classList.remove("show");
     }
   });
+
   const canvas = document.querySelector("#gameCanvas");
   const w = canvas.width; 
   const h = canvas.height;
