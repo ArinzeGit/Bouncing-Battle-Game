@@ -32,6 +32,10 @@ p.center{
   padding:20px;
 }
 
+#player1Div {
+  text-align: right;
+}
+
 canvas{
   border:20px solid #505050;
   border-radius: 15px;
