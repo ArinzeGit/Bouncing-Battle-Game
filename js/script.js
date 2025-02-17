@@ -47,14 +47,17 @@ window.onload = function init() {
   
   const dropdownButton = document.querySelector("#dropdownButton");
   const dropdownContent = document.querySelector("#dropdownContent");
+  const blur = document.querySelector("#blur");
  
   dropdownButton.addEventListener("click", function () {
     dropdownContent.classList.toggle("show");
+    blur.classList.toggle("show");
   });
   document.addEventListener('click', function(evt){ //to close menu if you click outside of menu and button
     if (!dropdownContent.contains(evt.target) && !dropdownButton.contains(evt.target)&&dropdownContent.classList.contains("show")){
       //if I don't exclude button, when button is clicked for opening it will open and close menu due to event propagation
       dropdownContent.classList.remove("show");
+      blur.classList.remove("show");
     }
   });
 
@@ -602,6 +605,11 @@ window.onload = function init() {
 
 
   function gameOverAnimation(){
+    // Step 1: Draw the translucent overlay
+    ctx.fillStyle = "rgba(0, 0, 0, 0.8)";  // Dark overlay
+    ctx.fillRect(0, 0, w, h);
+
+    // Step 2: Display "GAME OVER" with delays
     ctx.font='bold 100px cursive';
     ctx.fillStyle = "orange";
     ctx.fillText("G", 68, 227);  

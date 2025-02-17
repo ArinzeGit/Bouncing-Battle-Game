@@ -10,8 +10,10 @@
 
 <body>
   <header>
-    <h1 class="center"><span class="green">B</span><span class=orange>O</span><span class="green">U</span><span class=red>N</span><span class="green">C</span><span class=blue>I</span><span class="green">N</span><span class=purple>G </span><span class="green">B</span><span class=blue>A</span><span class="green">T</span><span class=red>T</span><span class="green">L</span><span class=orange>E</span></h1>
-    <p class="center">Don't let the ball go without a hit! First to 10 points wins!</p>
+    <div>
+      <h1><span class="green">B</span><span class=orange>O</span><span class="green">U</span><span class=red>N</span><span class="green">C</span><span class=blue>I</span><span class="green">N</span><span class=purple>G </span><span class="green">B</span><span class=blue>A</span><span class="green">T</span><span class=red>T</span><span class="green">L</span><span class=orange>E</span></h1>
+      <p>Don't let the ball go without a hit! First to 10 points wins!</p>
+    </div>
   </header>
 
   <main>
@@ -29,7 +31,7 @@
         </select>
         <h2 class="p1Color">Score: <span id="player1Score">0</span> </h2>
         <hr>
-        <h1 class="p1Color center winStatus" id="winStatus1"></h1>
+        <h1 class="p1Color winStatus" id="winStatus1"></h1>
       </div>
 
       <div id="canvasDiv">
@@ -49,14 +51,17 @@
         </select>
         <h2 class="p2Color">Score: <span id="player2Score">0</span> </h2>
         <hr>
-        <h1 class="p2Color center winStatus" id="winStatus2"></h1>
+        <h1 class="p2Color winStatus" id="winStatus2"></h1>
       </div>
     </section>
 
     <section id="buttonSection">
-      <button id="playPauseButton">PLAY</button>
-      <button id="muteButton">MUTE</button>
-      <div id="replayButtonDiv"></div>
+      <div id="leftButtons">
+        <div id="replayButtonDiv"></div>
+        <button id="muteButton">MUTE</button>
+        <button id="playPauseButton">PLAY</button>
+      </div>
+      <div id="blur"></div>
       <div id="dropdown">
          <button id="dropdownButton">About</button>
          <div id="dropdownContent">

@@ -1,3 +1,28 @@
+header{
+  display: flex;
+ justify-content: center;
+}
+
+header div{
+  text-align: center;
+  border-radius: 15px;
+  backdrop-filter: blur(64px);
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px #92FDA7;
+  padding:0 20px;
+}
+
+header div p{
+  margin-top:0.2em ;
+  margin-bottom:0.5em ;
+  word-spacing: 3px;
+}
+
+header div h1{
+  margin-top: 0.2em;
+  margin-bottom: 0em;
+}
+
 #gameSection{
   margin:10px;
 }
@@ -10,26 +35,16 @@
   color: orange;
 }
 
-.center{
-  text-align: center;
-}
-
-h1.center{
-  margin-top: 0.2em;
-  margin-bottom: 0em;
-}
-
-p.center{
-  margin-top:0.2em ;
-  margin-bottom:0.5em ;
-  word-spacing: 3px;
-}
-
 #player1Div, #player2Div {
   box-sizing:border-box;
   width: calc(50% - 275px);
   height: 500px;
   padding:20px;
+  backdrop-filter: blur(64px);
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  box-shadow: 0 0 10px #92FDA7;
+
 }
 
 #player1Div {
@@ -39,7 +54,7 @@ p.center{
 canvas{
   border:20px solid #505050;
   border-radius: 15px;
-  box-shadow: 10px 10px 10px mediumseagreen;
+  box-shadow: 0 0 10px #92FDA7;
   background-color: transparent;
 }
 
@@ -48,16 +63,23 @@ canvas{
   vertical-align: top;
 }
 
-
 #buttonSection{
-  margin: 0 0 0 30px;
+  position:relative;
+  width:100vw;
+  height: 40px;
+}
+
+#leftButtons{
+  position:absolute;
+  right:50%;
+  transform:translateX(-300px)
 }
 
 button{
   width: 100px;
   height: 40px;
   border-radius: 20px;
-  margin-right: 30px;
+  margin:0 20px;
   background-color:mediumseagreen;
   color:white;
   border: solid transparent;
@@ -127,8 +149,27 @@ select{
 }
 
 #dropdown {
-  position: relative;
-  float: right;
+  position:absolute;
+  left:50%;
+  transform:translateX(300px)
+}
+
+#blur{
+  position:fixed;
+  display:none;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(20px);
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.5s ease,
+}
+
+#blur.show{
+  opacity: 1;
+  display:block;
 }
 
 #dropdownButton {
@@ -149,14 +190,15 @@ select{
 
 #dropdownContent {
   opacity: 0;
-  clip-path: circle(0% at 100% 100%);
-  transition: opacity 1s ease, clip-path 0.5s ease;
+  clip-path: circle(0% at 50% 100%);
+  transition: opacity 0.5s, clip-path 0.5s;
   position: absolute;
   bottom: 40px;
-  right:0px;
+  left:50%;
+  transform:translateX(-50%);
   color: #f9f9f9;
-  background-color: rgba(0, 0, 0, 0.95);
-  box-shadow: -8px -8px 10px 5px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(64px);
+  box-shadow: 0 0 30px rgb(188,182,166);
   width: 600px;
   height: 500px;
   border-radius: 8px;
