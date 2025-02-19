@@ -64,9 +64,7 @@ window.onload = function init() {
   const canvas = document.querySelector("#gameCanvas");
   const w = canvas.width; 
   const h = canvas.height;
-  const canvasBackgroundImage = new Image();
-  canvasBackgroundImage.src = 'assets/canvasBackgroundImage.jpg';
-  let ctx;
+  const ctx = canvas.getContext("2d");
   let animationId,timerId;//flag variables to store return values of requestAnimationFrame() and setTimeout() for future manipulation
   let distanceX, distanceY;
   let isArrowUpPressed = false;
@@ -143,6 +141,35 @@ window.onload = function init() {
     x2:455
   }
 
+  //Draw canvas background image, players and ball on initial render. 
+  const canvasBackgroundImage = new Image();
+  canvasBackgroundImage.src = 'assets/canvasBackgroundImage.jpg';
+  function drawBall(b){
+    ctx.save();
+    ctx.translate(b.x,b.y);
+    ctx.fillStyle=b.color;
+    ctx.beginPath();
+    ctx.arc(0, 0,b.radius, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawPlayer(p){
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.fillStyle=p.color;
+    ctx.fillRect(0, 0, p.width, p.height);
+    ctx.restore();
+  }
+  canvasBackgroundImage.onload = function () {
+    ctx.drawImage(canvasBackgroundImage, 0, 0, w, h);
+    //draw current ball, players
+    
+    drawBall(ball); 
+    drawPlayer(player1); 
+    drawPlayer(player2);
+  };
+  
 
   document.addEventListener('keydown', keydownHandler);
 
@@ -288,8 +315,6 @@ window.onload = function init() {
 
 
   function ballLoop(){
-    ctx = canvas.getContext('2d');
-    
     if((player1Score===winScore)||(player2Score===winScore)){//loop gets cancelled when called if someone is on winScore
       cancelAnimationFrame(animationId);
       animationId = undefined; // Reset the variable to indicate that the loop is stopped
@@ -337,27 +362,6 @@ window.onload = function init() {
       animationId=requestAnimationFrame(ballLoop);
     }
   }
-
-
-  function drawBall(b){
-    ctx.save();
-    ctx.translate(b.x,b.y);
-    ctx.fillStyle=b.color;
-    ctx.beginPath();
-    ctx.arc(0, 0,b.radius, 0, 2*Math.PI);
-    ctx.fill();
-    ctx.restore();
-  }
-
-
- function drawPlayer(p){
-    ctx.save();
-    ctx.translate(p.x,p.y);
-    ctx.fillStyle=p.color;
-    ctx.fillRect(0, 0, p.width, p.height);
-    ctx.restore();
-  }
-
 
   function drawObstacle(ob){
     ctx.save();
