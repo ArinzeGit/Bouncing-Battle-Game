@@ -2,6 +2,24 @@ window.onload = function init() {
 
   console.log("page loaded and DOM is ready");
 
+  const rootStyles = getComputedStyle(document.documentElement);
+  
+  // Get CSS variables
+  const colors = {
+    blue: rootStyles.getPropertyValue("--blue").trim(),
+    green: rootStyles.getPropertyValue("--green").trim(),
+    purple: rootStyles.getPropertyValue("--purple").trim(),
+    red: rootStyles.getPropertyValue("--red").trim(),
+    orange: rootStyles.getPropertyValue("--orange").trim(),
+  };
+
+  // Set values dynamically for all matching 'options' element
+  Object.keys(colors).forEach((color) => {
+    document.querySelectorAll(`option.${color}`).forEach((option) => {
+      option.value = colors[color];
+    });
+  });
+  
   const gameOverSound = document.querySelector('#gameOverSound');
   const obstacleSound = document.querySelector('#obstacleSound');
   obstacleSound.volume = 0.5;
@@ -28,7 +46,7 @@ window.onload = function init() {
     document.querySelectorAll('.p1Color').forEach(element =>{
       element.style.color=player1ColorSelector.value;
     });
-    if(replayButton)drawPlayer(player1); //if game has started, draw the player with new color
+    drawPlayer(player1); //draw the player with new color
   });
 
   const player2ColorSelector=document.querySelector('#player2ColorSelector');
@@ -37,7 +55,7 @@ window.onload = function init() {
     document.querySelectorAll('.p2Color').forEach(element => {
       element.style.color=player2ColorSelector.value;
     });
-    if(replayButton)drawPlayer(player2);
+    drawPlayer(player2);
   });
 
   const winStatus1=document.querySelector('#winStatus1');
@@ -97,7 +115,7 @@ window.onload = function init() {
     speed: 5,
     height:100,
     width: 35,
-    color: 'mediumseagreen'
+    color: getComputedStyle(document.documentElement).getPropertyValue('--green').trim()
   };
   player1.y=(h-player1.height)/2;
 
@@ -107,7 +125,7 @@ window.onload = function init() {
     speed: 5,
     height:100,
     width: 35,
-    color: 'orange'
+    color: getComputedStyle(document.documentElement).getPropertyValue('--orange').trim()
   };
   player2.x=w-player2.width;
   player2.y=(h-player2.height)/2;
@@ -613,40 +631,45 @@ window.onload = function init() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.8)";  // Dark overlay
     ctx.fillRect(0, 0, w, h);
 
-    // Step 2: Display "GAME OVER" with delays
+    // Step 2: Create gradient for the text
+    let gradient = ctx.createLinearGradient(0, 0, w, 0); // Horizontal gradient
+    gradient.addColorStop(0, colors.blue);
+    gradient.addColorStop(0.12, colors.blue);   // Extend blue before blending
+    gradient.addColorStop(0.22, colors.green);
+    gradient.addColorStop(0.34, colors.green); // Extend green
+    gradient.addColorStop(0.44, colors.orange);
+    gradient.addColorStop(0.56, colors.orange); // Extend orange
+    gradient.addColorStop(0.66, colors.purple);
+    gradient.addColorStop(0.78, colors.purple); // Extend purple
+    gradient.addColorStop(0.88, colors.red);
+    gradient.addColorStop(1, colors.red);
+
+    // Step 3: Display "GAME OVER" with delays
     ctx.font='bold 100px cursive';
-    ctx.fillStyle = "orange";
+    ctx.fillStyle = gradient;
     ctx.fillText("G", 68, 227);  
     setTimeout(()=>{
-      ctx.fillStyle = "mediumseagreen";
       ctx.fillText("A", 168, 227);
     },1850);    
     setTimeout(()=>{
-      ctx.fillStyle = "tomato";
       ctx.fillText("M", 268, 227);
     },3700);    
     setTimeout(()=>{
-      ctx.fillStyle = "mediumseagreen";
       ctx.fillText("E", 368, 227);
     },5550);    
     setTimeout(()=>{
-      ctx.fillStyle = "dodgerblue";
       ctx.fillText("O", 37, 325);
     },7400);    
     setTimeout(()=>{
-      ctx.fillStyle = "violet";
       ctx.fillText("V", 137, 325);
     },9250);    
     setTimeout(()=>{
-      ctx.fillStyle = "mediumseagreen";
       ctx.fillText("E", 237, 325);
     },11100);    
     setTimeout(()=>{
-      ctx.fillStyle = "orange";
       ctx.fillText("R", 337, 325);
     },12950);    
     setTimeout(()=>{
-      ctx.fillStyle = "tomato";
       ctx.fillText("!", 437, 325);
     },14800);
   }
