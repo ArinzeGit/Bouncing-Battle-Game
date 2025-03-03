@@ -1,6 +1,6 @@
 window.onload = function init() {
 
-  console.log("page loaded and DOM is ready");
+  // console.log("page loaded and DOM is ready");
 
   const rootStyles = getComputedStyle(document.documentElement);
   
