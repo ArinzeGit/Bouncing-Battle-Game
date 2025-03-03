@@ -145,8 +145,6 @@ window.onload = function init() {
     y:-940,//carefully chosen spot such that the powerUp will pass twice untouched by the ball of speed (5,0) if obstacles haven't randomised the game yet
     speed:3,
     radius:45,
-    color1:"green",
-    color2:"pink"
   };
 
   let p1Space={ //range of free space between player1 and obstacle, used for the hitMissChecker function 
@@ -409,18 +407,27 @@ window.onload = function init() {
   function drawPowerUp(u){
     ctx.save();
     ctx.translate(u.x,u.y);
-    ctx.fillStyle=u.color1;
+
+    ctx.shadowColor = "rgba(173, 216, 230, 0.9)"; // Light Cyan Glow
+    ctx.shadowBlur = 25;
+
+    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, u.radius);
+    gradient.addColorStop(0, '#FF4500'); // Neon Orange
+    gradient.addColorStop(1, '#00E5FF'); // Electric Blue
+
+    ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.arc(0, 0,u.radius, 0, 2*Math.PI);
+    ctx.arc(0, 0, u.radius, 0, 2 * Math.PI);
     ctx.fill();
-    ctx.fillStyle=u.color2;
-    ctx.beginPath();
-    ctx.arc(0, 0,u.radius*2/3, 0, 2*Math.PI);
-    ctx.fill();
-    ctx.fillStyle=u.color1;
-    ctx.beginPath();
-    ctx.arc(0, 0,u.radius*1/3, 0, 2*Math.PI);
-    ctx.fill();
+
+    ctx.shadowColor = "rgba(0, 0, 0, 0)"; // Reset shadow
+
+    // Plus sign (two perpendicular rectangles)
+    ctx.fillStyle = "#FFD700"; // Bright Gold
+    let plusSize = u.radius * 0.2;
+    ctx.fillRect(-plusSize / 2, -plusSize * 1.5, plusSize, plusSize * 3);
+    ctx.fillRect(-plusSize * 1.5, -plusSize / 2, plusSize * 3, plusSize);
+
     ctx.restore();
   }
 
@@ -632,7 +639,7 @@ window.onload = function init() {
     ctx.fillRect(0, 0, w, h);
 
     // Step 2: Create gradient for the text
-    let gradient = ctx.createLinearGradient(0, 0, w, 0); // Horizontal gradient
+    const gradient = ctx.createLinearGradient(0, 0, w, 0); // Horizontal gradient
     gradient.addColorStop(0, colors.blue);
     gradient.addColorStop(0.12, colors.blue);   // Extend blue before blending
     gradient.addColorStop(0.22, colors.green);
@@ -645,7 +652,7 @@ window.onload = function init() {
     gradient.addColorStop(1, colors.red);
 
     // Step 3: Display "GAME OVER" with delays
-    ctx.font='bold 100px cursive';
+    ctx.font='bold 100px Orbitron';
     ctx.fillStyle = gradient;
     ctx.fillText("G", 68, 227);  
     setTimeout(()=>{
@@ -799,7 +806,7 @@ window.onload = function init() {
   function handleBallPowerUpCollision(b,u){
     if((b.x-u.x)**2+(b.y-u.y)**2<(b.radius+u.radius)**2){ //there is ball powerUp collision
       playPowerUpSound();
-      u.y=-u.radius; //take powerUp out just above the canvas
+      u.y=-u.radius*2; //take powerUp out just above the canvas
       u.speed=0; //and make it stationary
       if(isP1LastHitter){
         player1.height*=2; //double paddle size
