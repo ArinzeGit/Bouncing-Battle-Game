@@ -4,6 +4,7 @@
   --purple: #FF44CC;
   --red: #FF4500;
   --orange: #FFAA33;
+  --linkColor:rgb(255, 167, 38);
 }
 
 .blue{
@@ -205,7 +206,7 @@ select{
 }
 
 #dropdownButton {
-  color: rgb(255, 167, 38);
+  color: var(--linkColor);
   box-shadow: 0 4px 6px rgba(255, 167, 38, 0.5);
 }
 
@@ -237,7 +238,7 @@ select{
 }
 
 #dropdownContent a {
-  color: orange;
+  color:var(--linkColor);
   padding: 5px 16px;
   display: block;
 }
