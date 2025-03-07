@@ -160,12 +160,12 @@ window.onload = function init() {
   //Draw canvas background image, players and ball on initial render. 
   const canvasBackgroundImage = new Image();
   canvasBackgroundImage.src = 'assets/canvasBackgroundImage.jpg';
-  function drawBall(b){
+  function drawBall(){
     ctx.save();
-    ctx.translate(b.x,b.y);
-    ctx.fillStyle=b.color;
+    ctx.translate(ball.x,ball.y);
+    ctx.fillStyle=ball.color;
     ctx.beginPath();
-    ctx.arc(0, 0,b.radius, 0, 2*Math.PI);
+    ctx.arc(0, 0,ball.radius, 0, 2*Math.PI);
     ctx.fill();
     ctx.restore();
   }
@@ -181,7 +181,7 @@ window.onload = function init() {
     ctx.drawImage(canvasBackgroundImage, 0, 0, w, h);
     //draw current ball, players
     
-    drawBall(ball); 
+    drawBall(); 
     drawPlayer(player1); 
     drawPlayer(player2);
   };
@@ -341,25 +341,25 @@ window.onload = function init() {
       ctx.drawImage(canvasBackgroundImage, 0, 0, w, h);
 
       //draw current ball, players, obstacle
-      drawBall(ball); 
+      drawBall(); 
       drawPlayer(player1); 
       drawPlayer(player2);
-      drawObstacle(obstacle);
-      drawPowerUp(powerUp);
+      drawObstacle();
+      drawPowerUp();
       
       //determine next position of ball, players, obstacle
-      determineBallNextPosition(ball); 
+      determineBallNextPosition(); 
       determinePlayerNextPosition(player1); 
       determinePlayerNextPosition(player2);
-      determineObstacleNextPosition(obstacle);
-      determinePowerUpNextPosition(powerUp);
+      determineObstacleNextPosition();
+      determinePowerUpNextPosition();
       
       //handlers for canvas boundaries
-      handleBallBoundaries(ball); 
+      handleBallBoundaries(); 
       handlePlayerBoundaries(player1); 
       handlePlayerBoundaries(player2);
-      handleObstacleBoundaries(obstacle);
-      handlePowerUpBoundaries(powerUp);
+      handleObstacleBoundaries();
+      handlePowerUpBoundaries();
 
       //check if a player hit or missed the ball (to update scores and know who claims powerUp)
       hitMissChecker();
@@ -372,59 +372,59 @@ window.onload = function init() {
       handleBallObstacleCollision();
 
       //handle collision between ball and powerUp
-      handleBallPowerUpCollision(ball,powerUp);
+      handleBallPowerUpCollision();
 
       //request a new frame of animation in 1/60s
       animationId=requestAnimationFrame(ballLoop);
     }
   }
 
-  function drawObstacle(ob){
+  function drawObstacle(){
     ctx.save();
-    ctx.translate(ob.x+ob.size/2,ob.y+ob.size/2);
-    ctx.rotate(ob.angle);
-    ctx.fillStyle=ob.color;
-    ctx.fillRect(-ob.size/2, -ob.size/2, ob.size, ob.size);
+    ctx.translate(obstacle.x+obstacle.size/2,obstacle.y+obstacle.size/2);
+    ctx.rotate(obstacle.angle);
+    ctx.fillStyle=obstacle.color;
+    ctx.fillRect(-obstacle.size/2, -obstacle.size/2, obstacle.size, obstacle.size);
     ctx.fillStyle='black';
-    ctx.fillRect(-ob.size*7/16, -ob.size*7/16, ob.size*7/8, ob.size*7/8);
-    ctx.fillStyle=ob.color;
-    ctx.fillRect(-ob.size*5/16, -ob.size*5/16, ob.size*5/8, ob.size*5/8);
+    ctx.fillRect(-obstacle.size*7/16, -obstacle.size*7/16, obstacle.size*7/8, obstacle.size*7/8);
+    ctx.fillStyle=obstacle.color;
+    ctx.fillRect(-obstacle.size*5/16, -obstacle.size*5/16, obstacle.size*5/8, obstacle.size*5/8);
     ctx.fillStyle='white';
-    ctx.fillRect(-ob.size/4, -ob.size/4, ob.size/2, ob.size/2);
+    ctx.fillRect(-obstacle.size/4, -obstacle.size/4, obstacle.size/2, obstacle.size/2);
     ctx.restore();
     ctx.save();
-    ctx.translate(ob.x+ob.size/2,ob.y+ob.size/2);
+    ctx.translate(obstacle.x+obstacle.size/2,obstacle.y+obstacle.size/2);
     ctx.fillStyle='black';
     ctx.beginPath();
-    ctx.arc(0, 0,ob.size/4, 0, 2*Math.PI);
+    ctx.arc(0, 0,obstacle.size/4, 0, 2*Math.PI);
     ctx.fill();
-    ctx.fillStyle=ob.color;
-    ctx.fillRect(-Math.sqrt(2)*ob.size/16, -Math.sqrt(2)*ob.size/16, Math.sqrt(2)*ob.size/8, Math.sqrt(2)*ob.size/8);
+    ctx.fillStyle=obstacle.color;
+    ctx.fillRect(-Math.sqrt(2)*obstacle.size/16, -Math.sqrt(2)*obstacle.size/16, Math.sqrt(2)*obstacle.size/8, Math.sqrt(2)*obstacle.size/8);
     ctx.restore();
   }
 
 
-  function drawPowerUp(u){
+  function drawPowerUp(){
     ctx.save();
-    ctx.translate(u.x,u.y);
+    ctx.translate(powerUp.x,powerUp.y);
 
     ctx.shadowColor = "rgba(173, 216, 230, 0.9)"; // Light Cyan Glow
     ctx.shadowBlur = 25;
 
-    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, u.radius);
+    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, powerUp.radius);
     gradient.addColorStop(0, '#FF4500'); // Neon Orange
     gradient.addColorStop(1, '#00E5FF'); // Electric Blue
 
     ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.arc(0, 0, u.radius, 0, 2 * Math.PI);
+    ctx.arc(0, 0, powerUp.radius, 0, 2 * Math.PI);
     ctx.fill();
 
     ctx.shadowColor = "rgba(0, 0, 0, 0)"; // Reset shadow
 
     // Plus sign (two perpendicular rectangles)
     ctx.fillStyle = "#FFD700"; // Bright Gold
-    let plusSize = u.radius * 0.2;
+    let plusSize = powerUp.radius * 0.2;
     ctx.fillRect(-plusSize / 2, -plusSize * 1.5, plusSize, plusSize * 3);
     ctx.fillRect(-plusSize * 1.5, -plusSize / 2, plusSize * 3, plusSize);
 
@@ -432,9 +432,9 @@ window.onload = function init() {
   }
 
 
-  function determineBallNextPosition(b){
-    b.x +=b.speedX;
-    b.y += b.speedY;
+  function determineBallNextPosition(){
+    ball.x +=ball.speedX;
+    ball.y += ball.speedY;
   }
 
 
@@ -461,38 +461,38 @@ window.onload = function init() {
   }
 
 
-  function determineObstacleNextPosition(ob){
-    ob.y+=ob.speed;
-    ob.angle+=ob.angularSpeed;
+  function determineObstacleNextPosition(){
+    obstacle.y+=obstacle.speed;
+    obstacle.angle+=obstacle.angularSpeed;
   }
 
 
-  function determinePowerUpNextPosition(u){
-    u.y +=u.speed;
+  function determinePowerUpNextPosition(){
+    powerUp.y +=powerUp.speed;
   }
 
 
-  function handleBallBoundaries(b){
+  function handleBallBoundaries(){
     //for vertical boundaries:
-    if((b.x + b.radius)> w){
+    if((ball.x + ball.radius)> w){
       //it hit right canvas side so return ball to surface and direct ball left
-      b.x =w-b.radius;
-      b.speedX=-Math.abs(b.speedX);
-    } else if((b.x-b.radius)<0){
+      ball.x =w-ball.radius;
+      ball.speedX=-Math.abs(ball.speedX);
+    } else if((ball.x-ball.radius)<0){
       //it hit left canvas side so return ball to surface and direct ball right
-      b.x =b.radius;
-      b.speedX=Math.abs(b.speedX);
+      ball.x =ball.radius;
+      ball.speedX=Math.abs(ball.speedX);
     }
 
     //for horizontal boundaries:
-    if((b.y + b.radius)> h){
+    if((ball.y + ball.radius)> h){
       //it hit bottom canvas side so return ball to surface and direct ball up
-      b.y =h-b.radius;
-      b.speedY=-Math.abs(b.speedY);
-    } else if((b.y-b.radius)<0){
+      ball.y =h-ball.radius;
+      ball.speedY=-Math.abs(ball.speedY);
+    } else if((ball.y-ball.radius)<0){
       //it hit top canvas side so return ball to surface and direct ball down
-      b.y =b.radius;
-      b.speedY=Math.abs(b.speedY);
+      ball.y =ball.radius;
+      ball.speedY=Math.abs(ball.speedY);
     }
   }
 
@@ -508,20 +508,20 @@ window.onload = function init() {
   }
 
 
-  function handleObstacleBoundaries(ob){
-    if(ob.y>h+1.21*ob.size){ // the obstacle just went out of sight
-      ob.size=30+120*Math.random(); //randomize the size from 30 to 150
-      ob.speed=1+4*Math.random(); //randomize the speed from 1 to 5
-      ob.angularSpeed=Math.PI*(0.001+0.009*Math.random()); //randomize the angular speed from 0.001Pi to 0.01Pi
-      ob.x=(w-ob.size)/2; //centralize the obstacle
-      ob.y=-ob.size; //send it in from the top
+  function handleObstacleBoundaries(){
+    if(obstacle.y>h+1.21*obstacle.size){ // the obstacle just went out of sight
+      obstacle.size=30+120*Math.random(); //randomize the size from 30 to 150
+      obstacle.speed=1+4*Math.random(); //randomize the speed from 1 to 5
+      obstacle.angularSpeed=Math.PI*(0.001+0.009*Math.random()); //randomize the angular speed from 0.001Pi to 0.01Pi
+      obstacle.x=(w-obstacle.size)/2; //centralize the obstacle
+      obstacle.y=-obstacle.size; //send it in from the top
     }
   }
 
 
-  function handlePowerUpBoundaries(u){
-    if(u.y>h+u.radius){ // the powerUp just went out of sight
-      u.y=-u.radius; //send it in from the top
+  function handlePowerUpBoundaries(){
+    if(powerUp.y>h+powerUp.radius){ // the powerUp just went out of sight
+      powerUp.y=-powerUp.radius; //send it in from the top
     }
   }
 
@@ -803,18 +803,18 @@ window.onload = function init() {
   }
   
 
-  function handleBallPowerUpCollision(b,u){
-    if((b.x-u.x)**2+(b.y-u.y)**2<(b.radius+u.radius)**2){ //there is ball powerUp collision
+  function handleBallPowerUpCollision(){
+    if((ball.x-powerUp.x)**2+(ball.y-powerUp.y)**2<(ball.radius+powerUp.radius)**2){ //there is ball powerUp collision
       playPowerUpSound();
-      u.y=-u.radius*2; //take powerUp out just above the canvas
-      u.speed=0; //and make it stationary
+      powerUp.y=-powerUp.radius*2; //take powerUp out just above the canvas
+      powerUp.speed=0; //and make it stationary
       if(isP1LastHitter){
         player1.height*=2; //double paddle size
         player1.y-=player1.height/4; //centralize paddle
         timerId=setTimeout(()=>{ //wait 10 seconds (timerId can be used to abort the function before it executes using clearTimeout)
           player1.height/=2; //restore paddle size
           player1.y+=player1.height/2; //centralize paddle
-          u.speed=3; //and let powerUp start falling again
+          powerUp.speed=3; //and let powerUp start falling again
         },timeGiven);
         startTime1=Date.now();
         timeRemaining1=timeGiven;
@@ -824,13 +824,13 @@ window.onload = function init() {
         timerId=setTimeout(()=>{ //wait 10 seconds
           player2.height/=2; //restore paddle size
           player2.y+=player2.height/2; //centralize paddle
-          u.speed=3; //and let powerUp start falling again
+          powerUp.speed=3; //and let powerUp start falling again
         },timeGiven);
         startTime2=Date.now();
         timeRemaining2=timeGiven;
       }else{ //neither of the players has hit the ball
         timerId=setTimeout(()=>{
-          u.speed=3; //let powerUp start falling again after 10 seconds
+          powerUp.speed=3; //let powerUp start falling again after 10 seconds
         },timeGiven);
       }
 
