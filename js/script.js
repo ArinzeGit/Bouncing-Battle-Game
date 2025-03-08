@@ -227,6 +227,7 @@ window.onload = function init() {
   function startStopBallLoop() {
     if (!replayButton) {
       replayButtonDiv.innerHTML= '<button id="replayButton">REPLAY</button>' //This makes replay button appear when game is started
+      replayButtonDiv.classList.add("padded");
       replayButton = document.querySelector('#replayButton'); //I can assign the element now that it exists
       replayButton.addEventListener('click', replay);
     }

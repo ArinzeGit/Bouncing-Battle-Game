@@ -39,7 +39,6 @@ header div{
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 10px rgb(255,255,200);
   padding:0 20px;
-  margin-top: 0.2em;
 }
 
 header div p{
@@ -66,7 +65,7 @@ header div h1 {
 }
 
 #gameSection{
-  margin:10px;
+  margin-top:10px;
   display:flex;
   justify-content: space-between;
   align-items: center;
@@ -109,22 +108,32 @@ canvas{
 
 #buttonSection{
   position:relative;
-  width:100vw;
+  width:100%;
   height: 40px;
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 600px;
+  gap: 540px;
 }
 
 #leftButtons{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  justify-items: end;
+  justify-items: center;
+}
+
+#leftButtons div.padded, #dropdown{
+  backdrop-filter:blur(64px);
+  border-radius: 15px;
+  padding:30px;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#dropdown{
+  margin: 0 auto;
 }
 
 button{
   border-radius: 15px;
-  margin:0 5px;
   padding: 10px 20px;
   background-color:#1B5E20;
   color:white;
@@ -155,6 +164,7 @@ body {
   background-attachment: fixed;
   margin: 0;
   font-family: 'Orbitron', sans-serif;
+  padding:3px 10px;
 }
 
 .secondary-font{
@@ -219,7 +229,7 @@ select{
   clip-path: circle(0% at 50% 100%);
   transition: opacity 0.5s, clip-path 0.3s;
   position: absolute;
-  bottom: 47px;
+  bottom: 110px;
   left:50%;
   transform:translateX(-50%);
   color: #f9f9f9;
