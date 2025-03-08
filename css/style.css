@@ -27,6 +27,38 @@
   color:var(--orange);
 }
 
+body {
+  background-image: url('../assets/backgroundImage.webp');
+  background-size: cover;
+  background-position: calc(50% - 35px) center;
+  background-attachment: fixed;
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  padding:3px 10px;
+}
+
+.secondary-font{
+  font-family:sans-serif;
+}
+
+p,label,select,li{
+  font-size: 20px;
+  color:#c8c8c8;
+  font-weight: 700;
+}
+
+select{
+  background-color:black;
+  border-radius: 10px;
+  cursor:pointer;
+}
+
+.winStatus{
+  font-size: 50px;
+  margin: 0;
+  line-height: 1;
+}
+
 header{
   display: flex;
  justify-content: center;
@@ -121,15 +153,15 @@ canvas{
   justify-items: center;
 }
 
-#leftButtons div.padded, #dropdown{
+.padded{
   backdrop-filter:blur(64px);
   border-radius: 15px;
   padding:30px;
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-#dropdown{
-  margin: 0 auto;
+#replayButtonDiv{
+  display: inline-block;
 }
 
 button{
@@ -157,45 +189,10 @@ button:active{
   transform: scale(0.95) rotate(-2deg);
 }
 
-body {
-  background-image: url('../assets/backgroundImage.webp');
-  background-size: cover;
-  background-position: calc(50% - 35px) center;
-  background-attachment: fixed;
-  margin: 0;
-  font-family: 'Orbitron', sans-serif;
-  padding:3px 10px;
-}
-
-.secondary-font{
-  font-family:sans-serif;
-}
-
-p,label,select,li{
-  font-size: 20px;
-  color:#c8c8c8;
-  font-weight: 700;
-}
-
-select{
-  background-color:black;
-  border-radius: 10px;
-  cursor:pointer;
-}
-
-.winStatus{
-  font-size: 50px;
-  margin: 0;
-  line-height: 1;
-}
-
-#replayButtonDiv{
-  display: inline-block;
-}
-
 #dropdown {
   position:relative;
   justify-self: start;
+  margin-left:5.8% ;
 }
 
 #blur{
