@@ -137,7 +137,6 @@ window.onload = function init() {
     angle:0,
     angularSpeed:0.001*Math.PI,
     size:30,
-    color: 'red'
   };
 
   let powerUp={
@@ -380,30 +379,49 @@ window.onload = function init() {
     }
   }
 
-  function drawObstacle(){
+  function drawObstacle() {
     ctx.save();
-    ctx.translate(obstacle.x+obstacle.size/2,obstacle.y+obstacle.size/2);
+    ctx.translate(obstacle.x + obstacle.size / 2, obstacle.y + obstacle.size / 2);
+    
+    // Glowing red square
     ctx.rotate(obstacle.angle);
-    ctx.fillStyle=obstacle.color;
-    ctx.fillRect(-obstacle.size/2, -obstacle.size/2, obstacle.size, obstacle.size);
-    ctx.fillStyle='black';
-    ctx.fillRect(-obstacle.size*7/16, -obstacle.size*7/16, obstacle.size*7/8, obstacle.size*7/8);
-    ctx.fillStyle=obstacle.color;
-    ctx.fillRect(-obstacle.size*5/16, -obstacle.size*5/16, obstacle.size*5/8, obstacle.size*5/8);
-    ctx.fillStyle='white';
-    ctx.fillRect(-obstacle.size/4, -obstacle.size/4, obstacle.size/2, obstacle.size/2);
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "red";
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(-obstacle.size / 2, -obstacle.size / 2, obstacle.size, obstacle.size);
+    
+    // Rotating inner diamond
+    ctx.rotate(-2*obstacle.angle);
+    ctx.fillStyle = "rgba(255, 0, 0, 0.8)"; 
+    ctx.beginPath();
+    ctx.moveTo(0, -obstacle.size / 3);
+    ctx.lineTo(obstacle.size / 3, 0);
+    ctx.lineTo(0, obstacle.size / 3);
+    ctx.lineTo(-obstacle.size / 3, 0);
+    ctx.closePath();
+    ctx.fill();
+    
     ctx.restore();
     ctx.save();
-    ctx.translate(obstacle.x+obstacle.size/2,obstacle.y+obstacle.size/2);
-    ctx.fillStyle='black';
+    ctx.translate(obstacle.x + obstacle.size / 2, obstacle.y + obstacle.size / 2);
+    
+    // Inner circle to add depth
+    ctx.fillStyle = 'black';
     ctx.beginPath();
-    ctx.arc(0, 0,obstacle.size/4, 0, 2*Math.PI);
+    ctx.arc(0, 0, obstacle.size / 4, 0, 2 * Math.PI);
     ctx.fill();
-    ctx.fillStyle=obstacle.color;
-    ctx.fillRect(-Math.sqrt(2)*obstacle.size/16, -Math.sqrt(2)*obstacle.size/16, Math.sqrt(2)*obstacle.size/8, Math.sqrt(2)*obstacle.size/8);
+    
+    // Precomputed constants for readability and performance
+    const sqrt2_16 = Math.sqrt(2) / 16;
+    const sqrt2_8 = Math.sqrt(2) / 8;
+    
+    // Central small square
+    ctx.fillStyle = 'red';
+    ctx.fillRect(-sqrt2_16 * obstacle.size, -sqrt2_16 * obstacle.size, sqrt2_8 * obstacle.size, sqrt2_8 * obstacle.size);
+    
     ctx.restore();
   }
-
 
   function drawPowerUp(){
     ctx.save();
@@ -513,6 +531,7 @@ window.onload = function init() {
     if(obstacle.y>h+1.21*obstacle.size){ // the obstacle just went out of sight
       obstacle.size=30+120*Math.random(); //randomize the size from 30 to 150
       obstacle.speed=1+4*Math.random(); //randomize the speed from 1 to 5
+      obstacle.angle=0; //reset the angle to zero to prevent excessive rotation buildup
       obstacle.angularSpeed=Math.PI*(0.001+0.009*Math.random()); //randomize the angular speed from 0.001Pi to 0.01Pi
       obstacle.x=(w-obstacle.size)/2; //centralize the obstacle
       obstacle.y=-obstacle.size; //send it in from the top
