@@ -379,13 +379,24 @@ window.onload = function init() {
     }
   }
 
+  const skullPath = new Path2D("M368 128c0 44.4-25.4 83.5-64 106.4l0 21.6c0 17.7-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32l0-21.6c-38.6-23-64-62.1-64-106.4C80 57.3 144.5 0 224 0s144 57.3 144 128zM168 176a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm144-32a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM3.4 273.7c7.9-15.8 27.1-22.2 42.9-14.3L224 348.2l177.7-88.8c15.8-7.9 35-1.5 42.9 14.3s1.5 35-14.3 42.9L295.6 384l134.8 67.4c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L224 419.8 46.3 508.6c-15.8 7.9-35 1.5-42.9-14.3s-1.5-35 14.3-42.9L152.4 384 17.7 316.6C1.9 308.7-4.5 289.5 3.4 273.7z");
+
+  function drawSkull(ctx, x, y, size) {
+    ctx.save();
+    ctx.translate(x-size/2, y-size/2);
+    ctx.scale(size / 448, size / 512); // Scale the SVG proportionally
+    ctx.fillStyle = "white"; // Set the skull color
+    ctx.fill(skullPath);
+    ctx.restore();
+  }
+
   function drawObstacle() {
     ctx.save();
     ctx.translate(obstacle.x + obstacle.size / 2, obstacle.y + obstacle.size / 2);
     
     // Glowing red square
     ctx.rotate(obstacle.angle);
-    ctx.shadowBlur = 20;
+    ctx.shadowBlur = 15;
     ctx.shadowColor = "red";
     ctx.strokeStyle = "red";
     ctx.lineWidth = 4;
@@ -393,7 +404,7 @@ window.onload = function init() {
     
     // Rotating inner diamond
     ctx.rotate(-2*obstacle.angle);
-    ctx.fillStyle = "rgba(255, 0, 0, 0.8)"; 
+    ctx.fillStyle = "rgba(255, 0, 0, 0.8)";
     ctx.beginPath();
     ctx.moveTo(0, -obstacle.size / 3);
     ctx.lineTo(obstacle.size / 3, 0);
@@ -401,25 +412,20 @@ window.onload = function init() {
     ctx.lineTo(-obstacle.size / 3, 0);
     ctx.closePath();
     ctx.fill();
-    
+
     ctx.restore();
     ctx.save();
     ctx.translate(obstacle.x + obstacle.size / 2, obstacle.y + obstacle.size / 2);
-    
-    // Inner circle to add depth
-    ctx.fillStyle = 'black';
+
+    // Inner circle for depth
+    ctx.fillStyle = "black";
     ctx.beginPath();
     ctx.arc(0, 0, obstacle.size / 4, 0, 2 * Math.PI);
     ctx.fill();
-    
-    // Precomputed constants for readability and performance
-    const sqrt2_16 = Math.sqrt(2) / 16;
-    const sqrt2_8 = Math.sqrt(2) / 8;
-    
-    // Central small square
-    ctx.fillStyle = 'red';
-    ctx.fillRect(-sqrt2_16 * obstacle.size, -sqrt2_16 * obstacle.size, sqrt2_8 * obstacle.size, sqrt2_8 * obstacle.size);
-    
+
+    // Skull icon in the center
+    drawSkull(ctx, 0, 0, obstacle.size / 3);
+
     ctx.restore();
   }
 
