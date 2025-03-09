@@ -396,7 +396,7 @@ window.onload = function init() {
     
     // Glowing red square
     ctx.rotate(obstacle.angle);
-    ctx.shadowBlur = 15;
+    ctx.shadowBlur = 30;
     ctx.shadowColor = "red";
     ctx.strokeStyle = "red";
     ctx.lineWidth = 4;
