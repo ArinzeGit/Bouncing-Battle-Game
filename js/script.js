@@ -314,6 +314,7 @@ window.onload = function init() {
     winStatus1.innerHTML='';
     winStatus2.innerHTML='';
     clearTimeout(PowerUpTimerId); //abort any powerUp setTimeout waiting to half the height of a player
+    abortGameOverAnimation();
     startTime1=0;
     startTime2=0;
     timeRemaining1=0;
@@ -621,6 +622,7 @@ window.onload = function init() {
     }
   }
 
+
   function updateHealthBars(){
     const healthBar1 = document.getElementById("health-bar-player1");
     const newWidth1 = (player1Health /fullHealth) * 100 + "%";
@@ -629,6 +631,7 @@ window.onload = function init() {
     const newWidth2 = (player2Health /fullHealth) * 100 + "%";
     healthBar2.style.width = newWidth2;
   }
+
 
   function deccelerateBall(){
     ball.speedX*=5/Math.sqrt(ball.speedX**2+ball.speedY**2);//This line and the next jointly restore the resultant speed to 5
@@ -678,55 +681,50 @@ window.onload = function init() {
   }
 
 
-  function gameOverAnimation(){
-    // Step 1: Draw the translucent overlay
-    ctx.fillStyle = "rgba(0, 0, 0, 0.8)";  // Dark overlay
-    ctx.fillRect(0, 0, w, h);
+  let timeouts = []; // Store timeout IDs
+  function gameOverAnimation() {
+      // Step 1: Draw the translucent overlay
+      ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      ctx.fillRect(0, 0, w, h);
 
-    // Step 2: Create gradient for the text
-    const gradient = ctx.createLinearGradient(0, 0, w, 0); // Horizontal gradient
-    gradient.addColorStop(0, colors.blue);
-    gradient.addColorStop(0.12, colors.blue);   // Extend blue before blending
-    gradient.addColorStop(0.22, colors.green);
-    gradient.addColorStop(0.34, colors.green); // Extend green
-    gradient.addColorStop(0.44, colors.orange);
-    gradient.addColorStop(0.56, colors.orange); // Extend orange
-    gradient.addColorStop(0.66, colors.purple);
-    gradient.addColorStop(0.78, colors.purple); // Extend purple
-    gradient.addColorStop(0.88, colors.red);
-    gradient.addColorStop(1, colors.red);
+      // Step 2: Create gradient for the text
+      const gradient = ctx.createLinearGradient(0, 0, w, 0);
+      gradient.addColorStop(0, colors.blue);
+      gradient.addColorStop(0.12, colors.blue);
+      gradient.addColorStop(0.22, colors.green);
+      gradient.addColorStop(0.34, colors.green);
+      gradient.addColorStop(0.44, colors.orange);
+      gradient.addColorStop(0.56, colors.orange);
+      gradient.addColorStop(0.66, colors.purple);
+      gradient.addColorStop(0.78, colors.purple);
+      gradient.addColorStop(0.88, colors.red);
+      gradient.addColorStop(1, colors.red);
 
-    // Step 3: Display "GAME OVER" with delays
-    ctx.font='bold 100px Orbitron';
-    ctx.fillStyle = gradient;
-    ctx.fillText("G", 68, 227);  
-    setTimeout(()=>{
-      ctx.fillText("A", 168, 227);
-    },1850);    
-    setTimeout(()=>{
-      ctx.fillText("M", 268, 227);
-    },3700);    
-    setTimeout(()=>{
-      ctx.fillText("E", 368, 227);
-    },5550);    
-    setTimeout(()=>{
-      ctx.fillText("O", 37, 325);
-    },7400);    
-    setTimeout(()=>{
-      ctx.fillText("V", 137, 325);
-    },9250);    
-    setTimeout(()=>{
-      ctx.fillText("E", 237, 325);
-    },11100);    
-    setTimeout(()=>{
-      ctx.fillText("R", 337, 325);
-    },12950);    
-    setTimeout(()=>{
-      ctx.fillText("!", 437, 325);
-    },14800);
+      // Step 3: Display "GAME OVER" with delays
+      ctx.font = 'bold 100px Orbitron';
+      ctx.fillStyle = gradient;
+
+      const letters = ["G", "A", "M", "E", "O", "V", "E", "R", "!"];
+      const positions = [
+          [68, 227], [168, 227], [268, 227], [368, 227],
+          [37, 325], [137, 325], [237, 325], [337, 325], [437, 325]
+      ];
+
+      letters.forEach((letter, index) => {
+          const timeoutId = setTimeout(() => {
+              ctx.fillText(letter, positions[index][0], positions[index][1]);
+          }, index * 1850);
+          timeouts.push(timeoutId);
+      });
   }
- 
 
+
+  function abortGameOverAnimation() {
+      timeouts.forEach(clearTimeout);
+      timeouts = []; // Clear stored timeouts
+  }
+
+ 
   function handleBallPlayerCollision(b,p){
     if(overlap(b,p)){
 
