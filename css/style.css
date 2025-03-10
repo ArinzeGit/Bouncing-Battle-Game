@@ -147,10 +147,12 @@ header div h1 {
 
 #health-bar-player1 {
   background: linear-gradient(90deg, var(--green), #CCCCCC, var(--green));
+  margin-left:auto;
 }
 
 #health-bar-player2 {
   background: linear-gradient(90deg, var(--orange), #CCCCCC, var(--orange));
+  margin-right:auto;
 }
 
 #canvasDiv{
