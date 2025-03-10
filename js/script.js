@@ -354,9 +354,9 @@ window.onload = function init() {
       drawBall(); 
       drawPlayer(player1); 
       drawPlayer(player2);
-      drawObstacle();
       drawPowerUp();
-      
+      drawObstacle();
+    
       //determine next position of ball, players, obstacle
       determineBallNextPosition(); 
       determinePlayerNextPosition(player1); 
