@@ -100,6 +100,8 @@ window.onload = function init() {
   const fullHealth=10;
   let player1Health=fullHealth;
   let player2Health=fullHealth;
+  updateHealth();
+  updateHealthBars();
   let isP1LastHitter=false;
   let isP2LastHitter=false;
   let hitCount=0;
