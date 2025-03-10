@@ -42,19 +42,23 @@ window.onload = function init() {
 
   const player1ColorSelector=document.querySelector('#player1ColorSelector');
   player1ColorSelector.addEventListener('change',function(){
-    player1.color=player1ColorSelector.value;
+    const value = player1ColorSelector.value;
+    player1.color=value;
     document.querySelectorAll('.p1Color').forEach(element =>{
-      element.style.color=player1ColorSelector.value;
+      element.style.color=value;
     });
+    document.querySelector('#health-bar-player1').style.background=`linear-gradient(90deg, ${value}, #CCCCCC, ${value}`;
     drawPlayer(player1); //draw the player with new color
   });
 
   const player2ColorSelector=document.querySelector('#player2ColorSelector');
   player2ColorSelector.addEventListener('change',function(){
-    player2.color=player2ColorSelector.value;
+    const value = player2ColorSelector.value;
+    player2.color=value;
     document.querySelectorAll('.p2Color').forEach(element => {
-      element.style.color=player2ColorSelector.value;
+      element.style.color=value;
     });
+    document.querySelector('#health-bar-player2').style.background=`linear-gradient(90deg, ${value}, #CCCCCC, ${value}`;
     drawPlayer(player2);
   });
 
@@ -301,6 +305,8 @@ window.onload = function init() {
     hitCount=0;
     player1Score=0;
     player2Score=0;
+    updateHealth("player1");
+    updateHealth("player2");
     updateScore();
     winStatus1.innerHTML='';
     winStatus2.innerHTML='';
@@ -573,12 +579,14 @@ window.onload = function init() {
     }
     if((ball.x>p1Space.x2)&&(ball.speedX===Math.abs(ball.speedX))&&(didPlayer1Hit===false)){//ball going away from player1 without contact (a miss!)
       player2Score+=1;
+      updateHealth("player1");
       updateScore();
       didPlayer1Hit=true;//reset to avoid detecting the miss continously
       deccelerateBall();
       playMissSound();
     } else if ((ball.x<p2Space.x1)&&(ball.speedX===-Math.abs(ball.speedX))&&(didPlayer2Hit===false)){//ball going away from player2 without contact (a miss!)
       player1Score+=1;
+      updateHealth("player2");
       updateScore();
       didPlayer2Hit=true;//reset to avoid detecting the miss continously
       deccelerateBall();
@@ -610,6 +618,13 @@ window.onload = function init() {
     }
   }
 
+  function updateHealth(player){
+    const healthBar = document.getElementById(`health-bar-${player}`);
+    let health;
+    player=="player1"? health= (10-player2Score):player=="player2"?  health=(10-player1Score):health=null;
+    const newWidth = (health / 10) * 100 + "%"; // Scale width based on 10 lives
+    healthBar.style.width = newWidth;
+  }
 
   function deccelerateBall(){
     ball.speedX*=5/Math.sqrt(ball.speedX**2+ball.speedY**2);//This line and the next jointly restore the resultant speed to 5

@@ -128,6 +128,31 @@ header div h1 {
   text-align: right;
 }
 
+.health-container {
+  width: 100%;
+  height: 15px;
+  background-color: rgba(255, 255, 255, 0.2); /* Faint background */
+  border-radius: 8px;
+  margin-top: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.health-bar {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.3s ease-in-out;
+}
+
+#health-bar-player1 {
+  background: linear-gradient(90deg, var(--green), #CCCCCC, var(--green));
+}
+
+#health-bar-player2 {
+  background: linear-gradient(90deg, var(--orange), #CCCCCC, var(--orange));
+}
+
 #canvasDiv{
   display:flex;
   flex-direction: column;
