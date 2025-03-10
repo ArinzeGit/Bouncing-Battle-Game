@@ -89,7 +89,7 @@ window.onload = function init() {
   const w = canvas.width; 
   const h = canvas.height;
   const ctx = canvas.getContext("2d");
-  let animationId,timerId;//flag variables to store return values of requestAnimationFrame() and setTimeout() for future manipulation
+  let animationId,PowerUpTimerId;//flag variables to store return values of requestAnimationFrame() and setTimeout() for future manipulation
   let distanceX, distanceY;
   let isArrowUpPressed = false;
   let isArrowDownPressed = false;
@@ -271,7 +271,7 @@ window.onload = function init() {
 
 
   function pauseSetTimeout(){
-    if((isP1LastHitter)||(isP2LastHitter))clearTimeout(timerId); //don't bother if no one has hit the ball
+    if((isP1LastHitter)||(isP2LastHitter))clearTimeout(PowerUpTimerId); //don't bother if no one has hit the ball
     timeRemaining1-=Date.now()-startTime1;
     timeRemaining2-=Date.now()-startTime2;
   }
@@ -280,14 +280,14 @@ window.onload = function init() {
   function resumeSetTimeout(){
     if((player1Health!==0)&&(player2Health!==0)){
       if(timeRemaining1>0){
-        timerId=setTimeout(()=>{
+        PowerUpTimerId=setTimeout(()=>{
           player1.height/=2; //restore paddle size
           player1.y+=player1.height/2; //centralize paddle
           powerUp.speed=3; //and let powerUp start falling again
         },timeRemaining1);
         startTime1=Date.now();
       }else if(timeRemaining2>0){
-        timerId=setTimeout(()=>{ 
+        PowerUpTimerId=setTimeout(()=>{ 
           player2.height/=2; //restore paddle size
           player2.y+=player2.height/2; //centralize paddle
           powerUp.speed=3; //and let powerUp start falling again
@@ -313,7 +313,7 @@ window.onload = function init() {
     updateHealth();
     winStatus1.innerHTML='';
     winStatus2.innerHTML='';
-    clearTimeout(timerId); //abort any powerUp setTimeout waiting to half the height of a player
+    clearTimeout(PowerUpTimerId); //abort any powerUp setTimeout waiting to half the height of a player
     startTime1=0;
     startTime2=0;
     timeRemaining1=0;
@@ -660,14 +660,14 @@ window.onload = function init() {
       backgroundMusic.pause();
       playGameOverSound();
       gameOverAnimation();
-      clearTimeout(timerId); //abort any powerUp setTimeout waiting to half the height of a player
+      clearTimeout(PowerUpTimerId); //abort any powerUp setTimeout waiting to half the height of a player
     } else if(player1Health===0){
       winStatus1.innerHTML='<br><br>YOU LOSE';
       winStatus2.innerHTML='<br><br>YOU WIN';
       backgroundMusic.pause();
       playGameOverSound();
       gameOverAnimation();
-      clearTimeout(timerId); //abort any powerUp setTimeout waiting to half the height of a player
+      clearTimeout(PowerUpTimerId); //abort any powerUp setTimeout waiting to half the height of a player
     }
   }
 
@@ -856,7 +856,7 @@ window.onload = function init() {
       if(isP1LastHitter){
         player1.height*=2; //double paddle size
         player1.y-=player1.height/4; //centralize paddle
-        timerId=setTimeout(()=>{ //wait 10 seconds (timerId can be used to abort the function before it executes using clearTimeout)
+        PowerUpTimerId=setTimeout(()=>{ //wait 10 seconds (PowerUpTimerId can be used to abort the function before it executes using clearTimeout)
           player1.height/=2; //restore paddle size
           player1.y+=player1.height/2; //centralize paddle
           powerUp.speed=3; //and let powerUp start falling again
@@ -866,7 +866,7 @@ window.onload = function init() {
       }else if(isP2LastHitter){
         player2.height*=2; //double paddle size
         player2.y-=player2.height/4; //centralize paddle
-        timerId=setTimeout(()=>{ //wait 10 seconds
+        PowerUpTimerId=setTimeout(()=>{ //wait 10 seconds
           player2.height/=2; //restore paddle size
           player2.y+=player2.height/2; //centralize paddle
           powerUp.speed=3; //and let powerUp start falling again
@@ -874,7 +874,7 @@ window.onload = function init() {
         startTime2=Date.now();
         timeRemaining2=timeGiven;
       }else{ //neither of the players has hit the ball
-        timerId=setTimeout(()=>{
+        PowerUpTimerId=setTimeout(()=>{
           powerUp.speed=3; //let powerUp start falling again after 10 seconds
         },timeGiven);
       }
