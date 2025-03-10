@@ -146,12 +146,14 @@ header div h1 {
 }
 
 #health-bar-player1 {
-  background: linear-gradient(90deg, var(--green), #CCCCCC, var(--green));
+  background: linear-gradient(90deg, var(--green) 0%, #CCCCCC 50%, var(--green) 100%);
+  background-size: 5%;
   margin-left:auto;
 }
 
 #health-bar-player2 {
-  background: linear-gradient(90deg, var(--orange), #CCCCCC, var(--orange));
+  background: linear-gradient(90deg, var(--orange) 0%, #CCCCCC 50%, var(--orange) 100%);
+  background-size: 5%;
   margin-right:auto;
 }
 
