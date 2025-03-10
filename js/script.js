@@ -66,8 +66,8 @@ window.onload = function init() {
 
   const winStatus1=document.querySelector('#winStatus1');
   const winStatus2=document.querySelector('#winStatus2');
-  const replayButtonDiv = document.querySelector('#replayButtonDiv');
-  let replayButton; // = document.querySelector('#replayButton') but I cannot assign now since the element will be created dynamically.
+  const restartButtonDiv = document.querySelector('#restartButtonDiv');
+  let restartButton; // = document.querySelector('#restartButton') but I cannot assign now since the element will be created dynamically.
   
   const dropdownButton = document.querySelector("#dropdownButton");
   const dropdownContent = document.querySelector("#dropdownContent");
@@ -232,11 +232,11 @@ window.onload = function init() {
 
 
   function startStopBallLoop() {
-    if (!replayButton) {
-      replayButtonDiv.innerHTML= '<button id="replayButton">REPLAY</button>' //This makes replay button appear when game is started
-      replayButtonDiv.classList.add("padded");
-      replayButton = document.querySelector('#replayButton'); //I can assign the element now that it exists
-      replayButton.addEventListener('click', replay);
+    if (!restartButton) {
+      restartButtonDiv.innerHTML= '<button id="restartButton">RESTART</button>' //This makes restart button appear when game is started
+      restartButtonDiv.classList.add("padded");
+      restartButton = document.querySelector('#restartButton'); //I can assign the element now that it exists
+      restartButton.addEventListener('click', restart);
     }
     if (!animationId) { //if the animation frame is not already running, let it run
       ballLoop();
@@ -253,7 +253,7 @@ window.onload = function init() {
   }
 
 
-  function replay(){
+  function restart(){
     if (animationId) { //if the animation frame is running, stop it.
       cancelAnimationFrame(animationId);
       animationId = undefined;
