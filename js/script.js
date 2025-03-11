@@ -167,23 +167,49 @@ window.onload = function init() {
   //Draw canvas background image, players and ball on initial render. 
   const canvasBackgroundImage = new Image();
   canvasBackgroundImage.src = 'assets/canvasBackgroundImage.jpg';
-  function drawBall(){
+
+  function drawBall() {
     ctx.save();
-    ctx.translate(ball.x,ball.y);
-    ctx.fillStyle=ball.color;
+    ctx.translate(ball.x, ball.y);
+    
+    // Create a radial gradient for a glowing effect
+    let gradient = ctx.createRadialGradient(0, 0, ball.radius * 0.2, 0, 0, ball.radius);
+    gradient.addColorStop(0, "#ffffff");
+    gradient.addColorStop(0.3, "#ff77ff");
+    gradient.addColorStop(1, "#9900cc");
+
+    // Glow effect
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "#ff77ff";
+
+    ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.arc(0, 0,ball.radius, 0, 2*Math.PI);
+    ctx.arc(0, 0, ball.radius, 0, 2 * Math.PI);
     ctx.fill();
+    
     ctx.restore();
   }
 
-  function drawPlayer(p){
+
+  function drawPlayer(p) {
     ctx.save();
-    ctx.translate(p.x,p.y);
-    ctx.fillStyle=p.color;
-    ctx.fillRect(0, 0, p.width, p.height);
+    ctx.translate(p.x, p.y);
+
+    // Glow effect
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = p.color;
+
+    ctx.fillStyle = p.color;
+
+    // Rounded rectangle (alternative to plain rect)
+    ctx.beginPath();
+    ctx.roundRect(0, 0, p.width, p.height,7);
+    ctx.fill();
+    
     ctx.restore();
   }
+
+
   canvasBackgroundImage.onload = function () {
     ctx.drawImage(canvasBackgroundImage, 0, 0, w, h);
     //draw current ball, players
