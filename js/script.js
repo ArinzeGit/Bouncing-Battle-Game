@@ -242,9 +242,9 @@ window.onload = function init() {
   
 
   function keyupHandler(event) {
-    if (event.key === 'ArrowUp') {
+    if (event.key === 'o') {
       isArrowUpPressed = false;
-    } else if (event.key === 'ArrowDown') {
+    } else if (event.key === 'l') {
       isArrowDownPressed = false;
     } else if (event.key === 'w') {
       isWPressed = false;
