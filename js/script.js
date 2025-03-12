@@ -224,10 +224,10 @@ window.onload = function init() {
 
 
   function keydownHandler(event) {
-    if (event.key === 'ArrowUp') {
+    if (event.key === 'o') {
       event.preventDefault(); //prevent default scrolling
       isArrowUpPressed = true;
-    } else if (event.key === 'ArrowDown') {
+    } else if (event.key === 'l') {
       event.preventDefault(); //prevent default scrolling
       isArrowDownPressed = true;
     } else if (event.key === 'w') {
