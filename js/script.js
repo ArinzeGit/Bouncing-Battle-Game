@@ -224,10 +224,10 @@ window.onload = function init() {
 
 
   function keydownHandler(event) {
-    if (event.key === 'o') {
+    if (event.key === 'ArrowUp') {
       event.preventDefault(); //prevent default scrolling
       isArrowUpPressed = true;
-    } else if (event.key === 'l') {
+    } else if (event.key === 'ArrowDown') {
       event.preventDefault(); //prevent default scrolling
       isArrowDownPressed = true;
     } else if (event.key === 'w') {
@@ -242,9 +242,9 @@ window.onload = function init() {
   
 
   function keyupHandler(event) {
-    if (event.key === 'o') {
+    if (event.key === 'ArrowUp') {
       isArrowUpPressed = false;
-    } else if (event.key === 'l') {
+    } else if (event.key === 'ArrowDown') {
       isArrowDownPressed = false;
     } else if (event.key === 'w') {
       isWPressed = false;
