@@ -170,18 +170,11 @@ canvas{
 }
 
 #buttonSection{
-  position:relative;
   width:100%;
-  height: 40px;
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 540px;
-}
-
-#leftButtons{
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
+  display:flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .padded{
@@ -224,10 +217,8 @@ button:active{
   box-shadow: 0 0 20px rgba(48, 255, 200, 0.8);
 }
 
-#dropdown {
-  position:relative;
-  justify-self: start;
-  margin-left:7.5% ;
+#dropdownButtonDiv {
+  z-index: 1;
 }
 
 #blur{
@@ -262,10 +253,9 @@ button:active{
 
 #dropdownContent {
   opacity: 0;
-  clip-path: circle(0% at 50% 100%);
+  clip-path: circle(0% at 100% 100%);
   transition: opacity 0.5s, clip-path 0.3s;
-  position: absolute;
-  bottom: calc(100% + 10px);
+  position: fixed;
   left:50%;
   transform:translateX(-50%);
   color: #f9f9f9;

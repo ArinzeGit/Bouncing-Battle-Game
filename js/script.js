@@ -69,14 +69,25 @@ window.onload = function init() {
   const restartButtonDiv = document.querySelector('#restartButtonDiv');
   let restartButton; // = document.querySelector('#restartButton') but I cannot assign now since the element will be created dynamically.
   
+  const dropdownButtonDiv = document.querySelector("#dropdownButtonDiv");
   const dropdownButton = document.querySelector("#dropdownButton");
   const dropdownContent = document.querySelector("#dropdownContent");
   const blur = document.querySelector("#blur");
- 
+
+  function positionDropdown() {
+    const rect = dropdownButtonDiv.getBoundingClientRect();
+    dropdownContent.style.top = `${rect.top - dropdownContent.offsetHeight - 10}px`; // align vertically with button
+  }
+
+  positionDropdown(); // run once
+  window.addEventListener('resize', positionDropdown); // keep it aligned on resize
+  window.addEventListener('scroll', positionDropdown); // keep it aligned on scroll
+  
   dropdownButton.addEventListener("click", function () {
     dropdownContent.classList.toggle("show");
     blur.classList.toggle("show");
   });
+
   document.addEventListener('click', function(evt){ //to close menu if you click outside of menu and button
     if (!dropdownContent.contains(evt.target) && !dropdownButton.contains(evt.target)&&dropdownContent.classList.contains("show")){
       //if I don't exclude button, when button is clicked for opening it will open and close menu due to event propagation
