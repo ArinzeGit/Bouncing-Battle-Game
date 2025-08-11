@@ -7,6 +7,10 @@
   --linkColor:rgb(255, 167, 38);
 }
 
+*{
+  box-sizing: border-box;
+}
+
 .blue{
   color:var(--blue);
 }
@@ -27,18 +31,29 @@
   color:var(--orange);
 }
 
-body {
-  background-image: url('../assets/backgroundImage.webp');
-  background-size: cover;
-  background-position: calc(50% - 35px) center;
-  background-attachment: fixed;
-  margin: 0;
-  font-family: 'Orbitron', sans-serif;
-  padding:3px 10px;
-}
-
 .secondary-font{
   font-family:sans-serif;
+}
+
+body {
+  background-image: url('../assets/backgroundImage.png');
+  background-size: cover;
+  background-position:bottom;
+  background-attachment: fixed;
+  margin: 0;
+  padding:0;
+  font-family: 'Orbitron', sans-serif;
+}
+
+main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap:15px;
+  color: #c8c8c8;
+  min-height: 100vh;
+  padding: 5px 10px;
 }
 
 p,label,select,li{
@@ -53,27 +68,77 @@ select{
   cursor:pointer;
 }
 
-.winStatus{
-  font-size: 50px;
-  margin: 0;
-  line-height: 1;
-}
-
 header{
-  display: flex;
- justify-content: center;
-}
+  width: 100%;
+  display: grid;
+  align-items:end;
+  grid-template-columns: 1fr 1fr 1fr;
+ }
 
-header div{
+header div.bright-glow{
+  justify-self:center;
   text-align: center;
   border-radius: 15px;
   backdrop-filter: blur(64px);
   background-color: rgba(0, 0, 0, 0.5);
-  padding:0 20px;
+  padding:5px 20px 0;
+  margin:0 20px;
+  box-shadow: 0 0 10px rgba(255,255,200,0.5);
 }
 
-.bright-glow{
-  box-shadow: 0 0 10px rgba(255,255,200,0.5);
+.leftButtons,.rightButtons{
+  display:flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.leftButtons{
+  justify-self:right;
+}
+
+.rightButtons{
+  justify-self:left;
+}
+
+.padded{
+  backdrop-filter:blur(64px);
+  border-radius: 15px;
+  padding:15px;
+  background-color: rgba(48, 147, 115, 0.4);
+  border: 2px solid rgba(48, 255, 200, 0.3);
+  box-shadow: 0 0 15px rgba(48, 255, 200, 0.3);
+}
+
+button {
+  min-width:110px;
+  border-radius: 15px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #1B5E20, #388E3C); /* Gradient for depth */
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bolder;
+  font-family: Orbitron;
+  box-shadow: 0 4px 10px rgba(255, 255 ,200, 0.5);
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #2E7D32, #43A047);
+  box-shadow: 0 6px 15px rgba(255, 255, 200, 0.8), 0 0 8px rgba(48, 255, 200, 0.6);
+  transform: scale(1.1) rotate(-2deg);
+  outline: 2px solid rgba(48, 255, 200, 0.5);
+}
+
+button:active{
+  transform: scale(0.95) rotate(-2deg);
+  box-shadow: 0 0 20px rgba(48, 255, 200, 0.8);
+}
+
+#dropdownButtonDiv {
+  z-index: 1;
 }
 
 header div p{
@@ -100,10 +165,9 @@ header div h1 {
 }
 
 #gameSection{
-  margin-top:10px;
   display:flex;
-  justify-content: space-between;
-  align-items: center;
+  gap:10px;
+  align-items: start;
 }
 
 .p1Color{
@@ -117,7 +181,6 @@ header div h1 {
 #player1Div, #player2Div {
   box-sizing:border-box;
   width: calc(50% - 275px);
-  height: 500px;
   padding:20px;
   backdrop-filter: blur(64px);
   background-color: rgba(0, 0, 0, 0.8);
@@ -158,68 +221,19 @@ header div h1 {
   margin-right:auto;
 }
 
-#canvasDiv{
-  display:flex;
-  flex-direction: column;
+.winStatus{
+  font-size: 50px;
+  margin: 0;
+  line-height: 1;
 }
 
-canvas{
+#gameCanvas{
   border:20px solid #505050;
   border-radius: 15px;
   background-color: transparent;
 }
 
-#buttonSection{
-  width:100%;
-  display:flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-}
 
-.padded{
-  backdrop-filter:blur(64px);
-  border-radius: 15px;
-  padding:15px;
-  background-color: rgba(48, 147, 115, 0.4);
-  border: 2px solid rgba(48, 255, 200, 0.3);
-  box-shadow: 0 0 15px rgba(48, 255, 200, 0.3);
-}
-
-#restartButtonDiv{
-  display: inline-block;
-}
-
-button {
-  border-radius: 15px;
-  padding: 10px 20px;
-  background: linear-gradient(135deg, #1B5E20, #388E3C); /* Gradient for depth */
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bolder;
-  font-family: Orbitron;
-  box-shadow: 0 4px 10px rgba(255, 255 ,200, 0.5);
-  outline: none;
-  transition: all 0.2s ease-in-out;
-}
-
-button:hover {
-  background: linear-gradient(135deg, #2E7D32, #43A047);
-  box-shadow: 0 6px 15px rgba(255, 255, 200, 0.8), 0 0 8px rgba(48, 255, 200, 0.6);
-  transform: scale(1.1) rotate(-2deg);
-  outline: 2px solid rgba(48, 255, 200, 0.5);
-}
-
-button:active{
-  transform: scale(0.95) rotate(-2deg);
-  box-shadow: 0 0 20px rgba(48, 255, 200, 0.8);
-}
-
-#dropdownButtonDiv {
-  z-index: 1;
-}
 
 #blur{
   position:fixed;
@@ -263,7 +277,6 @@ button:active{
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 30px rgb(188,182,166);
   width: 625px;
-  height: 450px;
   border-radius: 8px;
   padding: 15px;
 }

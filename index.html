@@ -14,14 +14,22 @@
 </head>
 
 <body>
-  <header>
-    <div class="bright-glow">
-      <h1>BOUNCING BATTLE</h1>
-      <p class="secondary-font">Don't let the ball go without a hit!</p>
-    </div>
-  </header>
-
   <main>
+    <header>
+      <div class="leftButtons">
+        <div id="restartButtonDiv"></div>
+        <div class="padded"><button id="playPauseButton">PLAY</button></div>
+      </div>
+      <div class="bright-glow">
+        <h1>BOUNCING BATTLE</h1>
+        <p class="secondary-font">Don't let the ball go without a hit!</p>
+      </div>
+      <div class="rightButtons">
+        <div class="padded" id="dropdownButtonDiv"><button id="dropdownButton">About</button></div>
+        <div class="padded"><button id="muteButton">MUTE</button></div>
+      </div>
+    </header>
+
     <section id="gameSection">
       <div id="player1Div" class="bright-glow">
         <h2 class="p1Color">Player 1</h2>
@@ -65,14 +73,9 @@
         <h1 class="p2Color winStatus" id="winStatus2"></h1>
       </div>
     </section>
+  </main>
 
-    <section id="buttonSection">
-      <div id="restartButtonDiv"></div>
-      <div class="padded"><button id="muteButton">MUTE</button></div>
-      <div class="padded"><button id="playPauseButton">PLAY</button></div>
-      <div class="padded" id="dropdownButtonDiv"><button id="dropdownButton">About</button></div>
-    </section>
-
+  <aside>
     <section>
       <div id="blur"></div>
       <div id="dropdownContent">
@@ -115,7 +118,7 @@
       <audio id="missSound" src="assets/missSound.wav"></audio>
       <audio id="backgroundMusic" src="assets/backgroundMusic.mp3" loop></audio>
     </section>
-  </main>
+  </aside>
 </body>
 
 </html>

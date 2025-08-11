@@ -76,7 +76,7 @@ window.onload = function init() {
 
   function positionDropdown() {
     const rect = dropdownButtonDiv.getBoundingClientRect();
-    dropdownContent.style.top = `${rect.top - dropdownContent.offsetHeight - 10}px`; // align vertically with button
+    dropdownContent.style.top = `${rect.top + dropdownButtonDiv.offsetHeight + 15}px`; // align vertically with button
   }
 
   positionDropdown(); // run once
