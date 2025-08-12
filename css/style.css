@@ -45,11 +45,12 @@ body {
   font-family: 'Orbitron', sans-serif;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
 }
 
 main{
+  margin-top:max(20px,calc((100vh - 740px) / 4));
   display: flex;
   flex-direction: column;
   align-items: center;
