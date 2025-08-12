@@ -38,7 +38,7 @@
 body {
   background-image: url('../assets/backgroundImage.png');
   background-size: cover;
-  background-position:bottom;
+  background-position:center;
   background-attachment: fixed;
   margin: 0;
   padding:0;
