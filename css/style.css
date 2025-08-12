@@ -50,14 +50,15 @@ body {
 }
 
 main{
-  margin-top:max(20px,calc((100vh - 740px) / 4));
+  padding-top:max(20px,calc((100vh - 740px) / 4));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap:15px;
   color: #c8c8c8;
-  padding: 5px 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 p,label,select,li{
