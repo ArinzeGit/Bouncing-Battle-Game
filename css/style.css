@@ -116,38 +116,58 @@ header div.bright-glow{
 
 button {
   min-width:110px;
-  border-radius: 15px;
+  border-radius: 9999px;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #1B5E20, #388E3C); /* Gradient for depth */
+  background: linear-gradient(135deg, #1B5E20, #388E3C);
   color: white;
   border: none;
   cursor: pointer;
   font-size: 16px;
   font-weight: bolder;
   font-family: Orbitron;
-  box-shadow:inset 0 4px 10px rgba(255, 255 ,200, 0.5);
-  outline: none;
+  box-shadow:
+    inset 0 4px 6px rgba(255, 255, 200, 0.5),
+    0 0 6px rgba(48, 255, 200, 0.4); 
   transition: all 0.2s ease-in-out;
 }
 
 button:hover {
   background: linear-gradient(135deg, #2E7D32, #43A047);
-  box-shadow: inset 0 6px 15px rgba(255, 255, 200, 0.8), inset 0 0 8px rgba(48, 255, 200, 0.6);
-  transform: rotate(5deg);
+  transform: scale(1.05) rotate(5deg);
+  background: linear-gradient(135deg, #2E7D32, #43A047);
+  text-shadow: 0 0 5px rgba(255,255,255,0.8);
+  box-shadow: 
+    inset 0 6px 15px rgba(255, 255, 200, 0.8),
+    inset 0 0 8px rgba(48, 255, 200, 0.6),
+    0 0 10px rgba(48, 255, 200, 0.8);
 }
 
 button:active{
   transform: scale(0.8) rotate(5deg);
-  box-shadow: inset 0 0 20px rgba(48, 255, 200, 0.8);
+  box-shadow:
+    inset 0 0 20px rgba(48, 255, 200, 0.8),
+    0 0 8px rgba(48, 255, 200, 0.7);
 }
 
 #dropdownButton {
   color: var(--linkColor);
-  box-shadow: inset 0 4px 6px rgba(255, 167, 38, 0.5);
+  box-shadow:
+    inset 0 4px 6px rgba(255, 167, 38, 0.5),
+    0 0 6px rgba(255, 167, 38, 0.4);
 }
 
 #dropdownButton:hover {
-  box-shadow: inset 0 6px 15px rgba(255, 167, 38, 0.8), inset 0 0 8px rgba(48, 255, 200, 0.6);
+   box-shadow:
+    inset 0 6px 15px rgba(255, 167, 38, 0.8),
+    inset 0 0 8px rgba(255, 230, 150, 0.6),
+    0 0 12px rgba(255, 167, 38, 0.9);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+#dropdownButton:active {
+  box-shadow:
+    inset 0 0 20px rgba(255, 200, 100, 0.9),
+    0 0 8px rgba(255, 167, 38, 0.8);
 }
 
 #dropdownButtonDiv {
