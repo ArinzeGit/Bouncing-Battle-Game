@@ -125,21 +125,29 @@ button {
   font-size: 16px;
   font-weight: bolder;
   font-family: Orbitron;
-  box-shadow: 0 4px 10px rgba(255, 255 ,200, 0.5);
+  box-shadow:inset 0 4px 10px rgba(255, 255 ,200, 0.5);
   outline: none;
   transition: all 0.2s ease-in-out;
 }
 
 button:hover {
   background: linear-gradient(135deg, #2E7D32, #43A047);
-  box-shadow: 0 6px 15px rgba(255, 255, 200, 0.8), 0 0 8px rgba(48, 255, 200, 0.6);
-  transform: scale(1.1) rotate(-2deg);
-  outline: 2px solid rgba(48, 255, 200, 0.5);
+  box-shadow: inset 0 6px 15px rgba(255, 255, 200, 0.8), inset 0 0 8px rgba(48, 255, 200, 0.6);
+  transform: rotate(5deg);
 }
 
 button:active{
-  transform: scale(0.95) rotate(-2deg);
-  box-shadow: 0 0 20px rgba(48, 255, 200, 0.8);
+  transform: scale(0.8) rotate(5deg);
+  box-shadow: inset 0 0 20px rgba(48, 255, 200, 0.8);
+}
+
+#dropdownButton {
+  color: var(--linkColor);
+  box-shadow: inset 0 4px 6px rgba(255, 167, 38, 0.5);
+}
+
+#dropdownButton:hover {
+  box-shadow: inset 0 6px 15px rgba(255, 167, 38, 0.8), inset 0 0 8px rgba(48, 255, 200, 0.6);
 }
 
 #dropdownButtonDiv {
@@ -188,7 +196,7 @@ header div h1 {
   width: calc(50% - 275px);
   padding:20px;
   backdrop-filter: blur(64px);
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
 }
 
@@ -255,19 +263,6 @@ header div h1 {
 #blur.show{
   opacity: 1;
   display:block;
-}
-
-#dropdownButton {
-  color: var(--linkColor);
-  box-shadow: 0 4px 6px rgba(255, 167, 38, 0.5);
-}
-
-#dropdownButton:hover {
-  box-shadow: 0 6px 15px rgba(255, 167, 38, 0.8), 0 0 8px rgba(48, 255, 200, 0.6);
-}
-
-#dropdownButton:active {
-  box-shadow: 0 0 20px rgba(48, 255, 200, 0.8)
 }
 
 #dropdownContent {
