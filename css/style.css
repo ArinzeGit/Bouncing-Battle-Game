@@ -36,7 +36,7 @@
 }
 
 body {
-  background-image: url('../assets/backgroundImage.png');
+  background-image: url('../assets/images/backgroundImage.png');
   background-size: cover;
   background-position:center;
   background-attachment: fixed;

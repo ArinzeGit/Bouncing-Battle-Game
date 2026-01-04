@@ -177,7 +177,7 @@ window.onload = function init() {
 
   //Draw canvas background image, players and ball on initial render. 
   const canvasBackgroundImage = new Image();
-  canvasBackgroundImage.src = 'assets/canvasBackgroundImage.jpg';
+  canvasBackgroundImage.src = 'assets/images/canvasBackgroundImage.jpg';
 
   function drawBall() {
     ctx.save();
