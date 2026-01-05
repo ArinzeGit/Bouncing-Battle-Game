@@ -85,10 +85,13 @@ header div.bright-glow{
   text-align: center;
   border-radius: 15px;
   backdrop-filter: blur(64px);
-  background-color: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
   padding:5px 20px 0;
   margin:0 20px;
-  box-shadow: 0 0 10px rgba(255,255,200,0.5);
+  box-shadow: 
+    0 0 20px rgba(255,255,200,0.6),
+    0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .leftButtons,.rightButtons{
@@ -185,7 +188,12 @@ header div h1 {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 15px;
+  margin-top: 20px;
+  padding: 15px;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .p1Color{
@@ -201,12 +209,24 @@ header div h1 {
   min-width: 150px;
   padding: 15px 20px;
   backdrop-filter: blur(64px);
-  background-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#player1Div:hover, #player2Div:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 #player1Div {
@@ -246,27 +266,53 @@ header div h1 {
   height: 20px;
   border-radius: 50%;
   border: 2px solid currentColor;
-  background-color: currentColor;
-  transition: all 0.2s ease;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), currentColor);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 10px currentColor;
+  position: relative;
+}
+
+.heart::before {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .heart.empty {
-  background-color: transparent;
-  opacity: 0.3;
+  background: transparent;
+  opacity: 0.25;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.heart.empty::before {
+  display: none;
 }
 
 
 .winStatus{
-  font-size: 50px;
-  margin: 0;
-  line-height: 1;
+  font-size: 20px;
+  margin: 5px 0 0 0;
+  line-height: 1.2;
+  text-align: center;
+  min-height: 24px;
 }
 
 #gameCanvas{
-  border:20px solid #505050;
+  border: 3px solid rgba(255, 167, 38, 0.6);
   border-radius: 15px;
   background-color: transparent;
   display: block;
+  box-shadow: 
+    0 0 20px rgba(255, 167, 38, 0.4),
+    0 0 40px rgba(255, 167, 38, 0.2),
+    inset 0 0 30px rgba(0, 0, 0, 0.5);
+  position: relative;
 }
 
 
@@ -315,9 +361,49 @@ header div h1 {
   clip-path: circle(100% at 50% 50%);
 }
 
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: #f9f9f9;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  z-index: 1001;
+  min-width: auto;
+  box-shadow: none;
+}
+
+.close-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--linkColor);
+  transform: scale(1.1);
+  text-shadow: 0 0 8px rgba(255, 167, 38, 0.8);
+}
+
+.close-button:active {
+  transform: scale(0.9);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 #howToPlayContent h2 {
   margin-top: 0;
   color: var(--green);
+}
+
+#howToPlayContent p strong {
+  color: var(--linkColor);
 }
 
 #dropdownContent a {
