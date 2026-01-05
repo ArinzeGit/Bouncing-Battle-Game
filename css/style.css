@@ -75,10 +75,10 @@ select{
 
 header{
   width: 100%;
-  display: grid;
-  align-items:end;
-  grid-template-columns: 1fr 1fr 1fr;
- }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 header div.bright-glow{
   justify-self:center;
@@ -119,60 +119,35 @@ button {
   border-radius: 9999px;
   padding: 10px 20px;
   background: linear-gradient(135deg, #1B5E20, #388E3C);
-  color: white;
+  color: var(--linkColor);
   border: none;
   cursor: pointer;
   font-size: 16px;
   font-weight: bolder;
   font-family: Orbitron;
   box-shadow:
-    inset 0 4px 6px rgba(255, 255, 200, 0.5),
-    0 0 6px rgba(48, 255, 200, 0.4); 
+    inset 0 4px 6px rgba(255, 167, 38, 0.5),
+    0 0 6px rgba(255, 167, 38, 0.4); 
   transition: all 0.2s ease-in-out;
 }
 
 button:hover {
   background: linear-gradient(135deg, #2E7D32, #43A047);
   transform: scale(1.05) rotate(5deg);
-  background: linear-gradient(135deg, #2E7D32, #43A047);
   text-shadow: 0 0 5px rgba(255,255,255,0.8);
   box-shadow: 
-    inset 0 6px 15px rgba(255, 255, 200, 0.8),
-    inset 0 0 8px rgba(48, 255, 200, 0.6),
-    0 0 10px rgba(48, 255, 200, 0.8);
+    inset 0 6px 15px rgba(255, 167, 38, 0.8),
+    inset 0 0 8px rgba(255, 230, 150, 0.6),
+    0 0 12px rgba(255, 167, 38, 0.9);
 }
 
 button:active{
   transform: scale(0.8) rotate(5deg);
   box-shadow:
-    inset 0 0 20px rgba(48, 255, 200, 0.8),
-    0 0 8px rgba(48, 255, 200, 0.7);
-}
-
-#dropdownButton {
-  color: var(--linkColor);
-  box-shadow:
-    inset 0 4px 6px rgba(255, 167, 38, 0.5),
-    0 0 6px rgba(255, 167, 38, 0.4);
-}
-
-#dropdownButton:hover {
-   box-shadow:
-    inset 0 6px 15px rgba(255, 167, 38, 0.8),
-    inset 0 0 8px rgba(255, 230, 150, 0.6),
-    0 0 12px rgba(255, 167, 38, 0.9);
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-}
-
-#dropdownButton:active {
-  box-shadow:
     inset 0 0 20px rgba(255, 200, 100, 0.9),
     0 0 8px rgba(255, 167, 38, 0.8);
 }
 
-#dropdownButtonDiv {
-  z-index: 1;
-}
 
 header div p{
   margin-top:0.2em ;
@@ -199,8 +174,18 @@ header div h1 {
 
 #gameSection{
   display:flex;
-  gap:10px;
-  align-items: start;
+  gap:15px;
+  align-items: center;
+  justify-content: center;
+}
+
+#controlsSection {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
 }
 
 .p1Color{
@@ -213,57 +198,77 @@ header div h1 {
 
 #player1Div, #player2Div {
   box-sizing:border-box;
-  width: calc(50% - 275px);
-  padding:20px;
+  min-width: 150px;
+  padding: 15px 20px;
   backdrop-filter: blur(64px);
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 #player1Div {
-  text-align: right;
+  align-items: center;
 }
 
-.health-container {
-  width: 100%;
-  height: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+#player2Div {
+  align-items: center;
+}
+
+#player1Div h2, #player2Div h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#player1Div label, #player2Div label {
+  margin: 0;
+  font-size: 16px;
+}
+
+#player1Div select, #player2Div select {
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.hearts-container {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  flex-wrap: wrap;
   margin-top: 5px;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-.health-bar {
-  width:0%;
-  height: 100%;
-  border-radius: 8px;
-  transition: width 0.3s ease-in-out;
+.heart {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  background-color: currentColor;
+  transition: all 0.2s ease;
 }
 
-#health-bar-player1 {
-  background: linear-gradient(90deg, var(--green) 0%, #CCCCCC 50%, var(--green) 100%);
-  background-size: 5%;
-  margin-left:auto;
+.heart.empty {
+  background-color: transparent;
+  opacity: 0.3;
 }
 
-#health-bar-player2 {
-  background: linear-gradient(90deg, var(--orange) 0%, #CCCCCC 50%, var(--orange) 100%);
-  background-size: 5%;
-  margin-right:auto;
-}
 
 .winStatus{
-  font-size: 50px;
-  margin: 0;
-  line-height: 1;
+  font-size: 20px;
+  margin: 5px 0 0 0;
+  line-height: 1.2;
+  text-align: center;
+  min-height: 24px;
 }
 
 #gameCanvas{
   border:20px solid #505050;
   border-radius: 15px;
   background-color: transparent;
+  display: block;
 }
 
 
@@ -277,7 +282,8 @@ header div h1 {
   height: 100vh;
   backdrop-filter: blur(64px);
   opacity: 0;
-  transition: opacity 0.5s ease,
+  transition: opacity 0.5s ease;
+  z-index: 999;
 }
 
 #blur.show{
@@ -285,25 +291,75 @@ header div h1 {
   display:block;
 }
 
-#dropdownContent {
+#dropdownContent, #howToPlayContent {
   opacity: 0;
-  clip-path: circle(0% at 100% 100%);
+  clip-path: circle(0% at 50% 50%);
   transition: opacity 0.5s, clip-path 0.3s;
   position: fixed;
   left:50%;
-  transform:translateX(-50%);
+  top: 50%;
+  transform:translate(-50%, -50%);
   color: #f9f9f9;
   backdrop-filter: blur(64px);
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 30px rgb(188,182,166);
   width: 625px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
   border-radius: 8px;
-  padding: 15px;
+  padding: 20px;
+  z-index: 1000;
 }
 
-#dropdownContent.show {
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: #f9f9f9;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  z-index: 1001;
+  min-width: auto;
+  box-shadow: none;
+}
+
+.close-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--linkColor);
+  transform: scale(1.1);
+  text-shadow: 0 0 8px rgba(255, 167, 38, 0.8);
+}
+
+.close-button:active {
+  transform: scale(0.9);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+#dropdownContent.show, #howToPlayContent.show {
   opacity: 1;
   clip-path: circle(100% at 50% 50%);
+}
+
+#howToPlayContent h2 {
+  margin-top: 0;
+  color: var(--green);
+}
+
+#howToPlayContent p strong {
+  color: var(--linkColor);
 }
 
 #dropdownContent a {

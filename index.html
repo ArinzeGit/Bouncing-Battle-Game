@@ -16,25 +16,15 @@
 <body>
   <main>
     <header>
-      <div class="leftButtons">
-        <div id="restartButtonDiv"></div>
-        <div class="padded"><button id="playPauseButton">PLAY</button></div>
-      </div>
       <div class="bright-glow">
         <h1>BOUNCING BATTLE</h1>
-        <p class="secondary-font">Don't let the ball go without a hit!</p>
-      </div>
-      <div class="rightButtons">
-        <div class="padded" id="dropdownButtonDiv"><button id="dropdownButton">About</button></div>
-        <div class="padded"><button id="muteButton">MUTE</button></div>
       </div>
     </header>
 
     <section id="gameSection">
       <div id="player1Div" class="bright-glow">
-        <h2 class="p1Color">Player 1</h2>
-        <p class="secondary-font">Control paddle using the 'w' and 's' keys</p>
-        <label for="player1ColorSelector" class="secondary-font">Choose your color:</label>
+        <h2 class="p1Color">P1</h2>
+        <label for="player1ColorSelector" class="secondary-font">Color:</label>
         <select id="player1ColorSelector" class="secondary-font">
           <option class="blue">Blue</option>
           <option class="green" selected>Green</option>
@@ -42,11 +32,7 @@
           <option class="red">red</option>
           <option class="orange">Orange</option>
         </select>
-        <h2 class="p1Color">Health: <span id="player1Health">0</span> </h2>
-        <hr>
-        <div class="health-container">
-          <div id="health-bar-player1" class="health-bar"></div>
-        </div>
+        <div id="player1Hearts" class="hearts-container"></div>
         <h1 class="p1Color winStatus" id="winStatus1"></h1>
       </div>
 
@@ -55,9 +41,8 @@
       </div>
       
       <div id="player2Div" class="bright-glow">
-        <h2 class="p2Color">Player 2</h2>
-        <p class="secondary-font">Control paddle using the 'arrow up' and 'arrow down' keys</p>
-        <label for="player2ColorSelector" class="secondary-font">Choose your color:</label>
+        <h2 class="p2Color">P2</h2>
+        <label for="player2ColorSelector" class="secondary-font">Color:</label>
         <select id="player2ColorSelector" class="secondary-font">
           <option class="blue">Blue</option>
           <option class="green">Green</option>
@@ -65,13 +50,17 @@
           <option class="red">red</option>
           <option class="orange" selected>Orange</option>
         </select>
-        <h2 class="p2Color">Health: <span id="player2Health">0</span> </h2>
-        <hr>
-        <div class="health-container">
-          <div id="health-bar-player2" class="health-bar"></div>
-        </div>
+        <div id="player2Hearts" class="hearts-container"></div>
         <h1 class="p2Color winStatus" id="winStatus2"></h1>
       </div>
+    </section>
+
+    <section id="controlsSection">
+      <div id="restartButtonDiv"></div>
+      <button id="playPauseButton">PLAY</button>
+      <button id="howToPlayButton">How to Play</button>
+      <div id="dropdownButtonDiv"><button id="dropdownButton">About</button></div>
+      <button id="muteButton">MUTE</button>
     </section>
   </main>
 
@@ -79,6 +68,7 @@
     <section>
       <div id="blur"></div>
       <div id="dropdownContent">
+        <button class="close-button" id="closeAboutButton" aria-label="Close">&times;</button>
         <p>Developer Name: Dennings Owoh</p>
         <p>Role: Game Developer</p>
         <hr>
@@ -107,6 +97,26 @@
             </li>
           </ul>
         </div>
+      </div>
+      <div id="howToPlayContent">
+        <button class="close-button" id="closeHowToPlayButton" aria-label="Close">&times;</button>
+        <h2>How to Play</h2>
+        <hr>
+        <p><strong>Player 1 Controls:</strong></p>
+        <p>Use 'W' key to move paddle up</p>
+        <p>Use 'S' key to move paddle down</p>
+        <hr>
+        <p><strong>Player 2 Controls:</strong></p>
+        <p>Use 'Arrow Up' key to move paddle up</p>
+        <p>Use 'Arrow Down' key to move paddle down</p>
+        <hr>
+        <p><strong>Game Rules:</strong></p>
+        <p>Don't let the ball go without a hit!</p>
+        <p>If the ball passes your side without hitting your paddle, you lose 1 health point.</p>
+        <p>Hit the ball with your paddle to keep it in play.</p>
+        <p>Watch out for rotating obstacles!</p>
+        <p>Collect power-ups to temporarily double your paddle size.</p>
+        <p>The first player to lose all health points loses the game.</p>
       </div>
     </section>
 

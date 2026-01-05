@@ -47,8 +47,7 @@ window.onload = function init() {
     document.querySelectorAll('.p1Color').forEach(element =>{
       element.style.color=value;
     });
-    document.querySelector('#health-bar-player1').style.background=`linear-gradient(90deg, ${value} 0%, #CCCCCC 50%, ${value} 100%)`;
-    document.querySelector('#health-bar-player1').style.backgroundSize ="5%";
+    updateHearts();
     drawPlayer(player1); //draw the player with new color
   });
 
@@ -59,40 +58,60 @@ window.onload = function init() {
     document.querySelectorAll('.p2Color').forEach(element => {
       element.style.color=value;
     });
-    document.querySelector('#health-bar-player2').style.background=`linear-gradient(90deg, ${value} 0%, #CCCCCC 50%, ${value} 100%)`;
-    document.querySelector('#health-bar-player2').style.backgroundSize ="5%";
+    updateHearts();
     drawPlayer(player2);
   });
 
   const winStatus1=document.querySelector('#winStatus1');
   const winStatus2=document.querySelector('#winStatus2');
   const restartButtonDiv = document.querySelector('#restartButtonDiv');
+  const playPauseButton = document.querySelector('#playPauseButton');
   let restartButton; // = document.querySelector('#restartButton') but I cannot assign now since the element will be created dynamically.
   
   const dropdownButtonDiv = document.querySelector("#dropdownButtonDiv");
   const dropdownButton = document.querySelector("#dropdownButton");
   const dropdownContent = document.querySelector("#dropdownContent");
+  const howToPlayButton = document.querySelector("#howToPlayButton");
+  const howToPlayContent = document.querySelector("#howToPlayContent");
+  const closeAboutButton = document.querySelector("#closeAboutButton");
+  const closeHowToPlayButton = document.querySelector("#closeHowToPlayButton");
   const blur = document.querySelector("#blur");
-
-  function positionDropdown() {
-    const rect = dropdownButtonDiv.getBoundingClientRect();
-    dropdownContent.style.top = `${rect.top + dropdownButtonDiv.offsetHeight + 15}px`; // align vertically with button
+  
+  function updateBlur() {
+    blur.classList.toggle("show", dropdownContent.classList.contains("show") || howToPlayContent.classList.contains("show"));
   }
 
-  positionDropdown(); // run once
-  window.addEventListener('resize', positionDropdown); // keep it aligned on resize
-  window.addEventListener('scroll', positionDropdown); // keep it aligned on scroll
-  
+  function closeAbout() {
+    dropdownContent.classList.remove("show");
+    updateBlur();
+  }
+
+  function closeHowToPlay() {
+    howToPlayContent.classList.remove("show");
+    updateBlur();
+  }
+
   dropdownButton.addEventListener("click", function () {
+    closeHowToPlay(); // Close other popup if open
     dropdownContent.classList.toggle("show");
-    blur.classList.toggle("show");
+    updateBlur();
   });
 
-  document.addEventListener('click', function(evt){ //to close menu if you click outside of menu and button
-    if (!dropdownContent.contains(evt.target) && !dropdownButton.contains(evt.target)&&dropdownContent.classList.contains("show")){
-      //if I don't exclude button, when button is clicked for opening it will open and close menu due to event propagation
-      dropdownContent.classList.remove("show");
-      blur.classList.remove("show");
+  howToPlayButton.addEventListener("click", function () {
+    closeAbout(); // Close other popup if open
+    howToPlayContent.classList.toggle("show");
+    updateBlur();
+  });
+
+  closeAboutButton.addEventListener("click", closeAbout);
+  closeHowToPlayButton.addEventListener("click", closeHowToPlay);
+
+  document.addEventListener('click', function(evt) {
+    if (dropdownContent.classList.contains("show") && !dropdownContent.contains(evt.target) && !dropdownButton.contains(evt.target)) {
+      closeAbout();
+    }
+    if (howToPlayContent.classList.contains("show") && !howToPlayContent.contains(evt.target) && !howToPlayButton.contains(evt.target)) {
+      closeHowToPlay();
     }
   });
 
@@ -108,11 +127,11 @@ window.onload = function init() {
   let isSPressed = false;
   let didPlayer1Hit=true;
   let didPlayer2Hit=true;
-  const fullHealth=10;
+  const fullHealth=5;
   let player1Health=fullHealth;
   let player2Health=fullHealth;
-  updateHealth();
-  updateHealthBars();
+  initializeHearts();
+  updateHearts();
   let isP1LastHitter=false;
   let isP2LastHitter=false;
   let hitCount=0;
@@ -271,7 +290,6 @@ window.onload = function init() {
   function startStopBallLoop() {
     if (!restartButton) {
       restartButtonDiv.innerHTML= '<button id="restartButton">RESTART</button>' //This makes restart button appear when game is started
-      restartButtonDiv.classList.add("padded");
       restartButton = document.querySelector('#restartButton'); //I can assign the element now that it exists
       restartButton.addEventListener('click', restart);
     }
@@ -346,8 +364,7 @@ window.onload = function init() {
     hitCount=0;
     player1Health=fullHealth;
     player2Health=fullHealth;
-    updateHealthBars();
-    updateHealth();
+    updateHearts();
     winStatus1.innerHTML='';
     winStatus2.innerHTML='';
     clearTimeout(PowerUpTimerId); //abort any powerUp setTimeout waiting to half the height of a player
@@ -620,15 +637,15 @@ window.onload = function init() {
     }
     if((ball.x>p1Space.x2)&&(ball.speedX===Math.abs(ball.speedX))&&(didPlayer1Hit===false)){//ball going away from player1 without contact (a miss!)
       player1Health-=1;
+      updateHearts();
       updateHealth();
-      updateHealthBars();
       didPlayer1Hit=true;//reset to avoid detecting the miss continously
       deccelerateBall();
       playMissSound();
     } else if ((ball.x<p2Space.x1)&&(ball.speedX===-Math.abs(ball.speedX))&&(didPlayer2Hit===false)){//ball going away from player2 without contact (a miss!)
       player2Health-=1;
+      updateHearts();
       updateHealth();
-      updateHealthBars();
       didPlayer2Hit=true;//reset to avoid detecting the miss continously
       deccelerateBall();
       playMissSound();
@@ -660,13 +677,42 @@ window.onload = function init() {
   }
 
 
-  function updateHealthBars(){
-    const healthBar1 = document.getElementById("health-bar-player1");
-    const newWidth1 = (player1Health /fullHealth) * 100 + "%";
-    healthBar1.style.width = newWidth1;
-    const healthBar2 = document.getElementById("health-bar-player2");
-    const newWidth2 = (player2Health /fullHealth) * 100 + "%";
-    healthBar2.style.width = newWidth2;
+  function initializeHearts(){
+    const hearts1 = document.getElementById("player1Hearts");
+    const hearts2 = document.getElementById("player2Hearts");
+    hearts1.innerHTML = '';
+    hearts2.innerHTML = '';
+    
+    for (let i = 0; i < fullHealth; i++) {
+      const heart1 = document.createElement('div');
+      heart1.className = 'heart p1Color';
+      hearts1.appendChild(heart1);
+      
+      const heart2 = document.createElement('div');
+      heart2.className = 'heart p2Color';
+      hearts2.appendChild(heart2);
+    }
+  }
+
+  function updateHearts(){
+    const hearts1 = document.querySelectorAll("#player1Hearts .heart");
+    const hearts2 = document.querySelectorAll("#player2Hearts .heart");
+    
+    hearts1.forEach((heart, index) => {
+      if (index < player1Health) {
+        heart.classList.remove('empty');
+      } else {
+        heart.classList.add('empty');
+      }
+    });
+    
+    hearts2.forEach((heart, index) => {
+      if (index < player2Health) {
+        heart.classList.remove('empty');
+      } else {
+        heart.classList.add('empty');
+      }
+    });
   }
 
 
@@ -692,18 +738,16 @@ window.onload = function init() {
 
 
   function updateHealth(){
-    document.querySelector('#player1Health').innerHTML=player1Health;
-    document.querySelector('#player2Health').innerHTML=player2Health;
     if(player2Health===0){
-      winStatus1.innerHTML='<br><br>YOU WIN';
-      winStatus2.innerHTML='<br><br>YOU LOSE';
+      winStatus1.innerHTML='YOU WIN';
+      winStatus2.innerHTML='YOU LOSE';
       backgroundMusic.pause();
       playGameOverSound();
       gameOverAnimation();
       clearTimeout(PowerUpTimerId); //abort any powerUp setTimeout waiting to half the height of a player
     } else if(player1Health===0){
-      winStatus1.innerHTML='<br><br>YOU LOSE';
-      winStatus2.innerHTML='<br><br>YOU WIN';
+      winStatus1.innerHTML='YOU LOSE';
+      winStatus2.innerHTML='YOU WIN';
       backgroundMusic.pause();
       playGameOverSound();
       gameOverAnimation();
