@@ -194,27 +194,99 @@ window.onload = function init() {
     x2:455
   }
 
-  //Draw canvas background image, players and ball on initial render. 
-  const canvasBackgroundImage = new Image();
-  canvasBackgroundImage.src = 'assets/images/canvasBackgroundImage.jpg';
+  //Draw canvas background - clean dark background that won't interfere with game objects
+  function drawCanvasBackground() {
+    // Draw a dark gradient background with subtle color variation
+    const gradient = ctx.createLinearGradient(0, 0, 0, h);
+    gradient.addColorStop(0, '#0a0a15');
+    gradient.addColorStop(0.5, '#0f0f1f');
+    gradient.addColorStop(1, '#1a1a2e');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, w, h);
+    
+    // Add subtle center line (barely visible)
+    ctx.strokeStyle = 'rgba(255, 167, 38, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(w/2, 0);
+    ctx.lineTo(w/2, h);
+    ctx.stroke();
+    
+    // Add subtle stars with varying brightness (static, won't interfere)
+    const stars = [
+      {x: 50, y: 30, size: 1, brightness: 0.4},
+      {x: 150, y: 80, size: 1, brightness: 0.3},
+      {x: 250, y: 50, size: 1.5, brightness: 0.5},
+      {x: 350, y: 70, size: 1, brightness: 0.3},
+      {x: 450, y: 40, size: 1, brightness: 0.4},
+      {x: 100, y: 150, size: 1, brightness: 0.3},
+      {x: 200, y: 180, size: 1.5, brightness: 0.5},
+      {x: 300, y: 160, size: 1, brightness: 0.3},
+      {x: 400, y: 190, size: 1, brightness: 0.4},
+      {x: 50, y: 250, size: 1, brightness: 0.3},
+      {x: 150, y: 280, size: 1.5, brightness: 0.5},
+      {x: 250, y: 300, size: 1, brightness: 0.3},
+      {x: 350, y: 270, size: 1, brightness: 0.4},
+      {x: 450, y: 320, size: 1, brightness: 0.3},
+      {x: 80, y: 350, size: 1, brightness: 0.4},
+      {x: 180, y: 380, size: 1.5, brightness: 0.5},
+      {x: 280, y: 360, size: 1, brightness: 0.3},
+      {x: 380, y: 390, size: 1, brightness: 0.4},
+      {x: 120, y: 450, size: 1, brightness: 0.3},
+      {x: 220, y: 420, size: 1.5, brightness: 0.5},
+      {x: 320, y: 440, size: 1, brightness: 0.3},
+      {x: 420, y: 470, size: 1, brightness: 0.4}
+    ];
+    
+    stars.forEach(star => {
+      ctx.fillStyle = `rgba(255, 255, 255, ${star.brightness})`;
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Add subtle glow to brighter stars
+      if (star.brightness >= 0.5) {
+        ctx.shadowBlur = 3;
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    });
+  }
 
   function drawBall() {
     ctx.save();
     ctx.translate(ball.x, ball.y);
     
-    // Create a radial gradient for a glowing effect
-    let gradient = ctx.createRadialGradient(0, 0, ball.radius * 0.2, 0, 0, ball.radius);
-    gradient.addColorStop(0, "#ffffff");
-    gradient.addColorStop(0.3, "#ff77ff");
-    gradient.addColorStop(1, "#9900cc");
-
-    // Glow effect
+    // Enhanced glow effect
+    ctx.shadowBlur = 25;
+    ctx.shadowColor = "#ff77ff";
+    
+    // Outer glow ring
+    ctx.fillStyle = "rgba(255, 119, 255, 0.3)";
+    ctx.beginPath();
+    ctx.arc(0, 0, ball.radius + 3, 0, 2 * Math.PI);
+    ctx.fill();
+    
     ctx.shadowBlur = 20;
     ctx.shadowColor = "#ff77ff";
+    
+    // Create an enhanced radial gradient
+    let gradient = ctx.createRadialGradient(0, -ball.radius * 0.3, 0, 0, 0, ball.radius);
+    gradient.addColorStop(0, "#ffffff");
+    gradient.addColorStop(0.2, "#ff99ff");
+    gradient.addColorStop(0.5, "#ff77ff");
+    gradient.addColorStop(1, "#9900cc");
 
     ctx.fillStyle = gradient;
     ctx.beginPath();
     ctx.arc(0, 0, ball.radius, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Add highlight
+    ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+    ctx.beginPath();
+    ctx.arc(-ball.radius * 0.3, -ball.radius * 0.3, ball.radius * 0.3, 0, 2 * Math.PI);
     ctx.fill();
     
     ctx.restore();
@@ -225,29 +297,70 @@ window.onload = function init() {
     ctx.save();
     ctx.translate(p.x, p.y);
 
-    // Glow effect
-    ctx.shadowBlur = 15;
+    // Enhanced glow effect
+    ctx.shadowBlur = 20;
     ctx.shadowColor = p.color;
+    
+    // Create gradient for paddle with subtle brightness variation
+    const gradient = ctx.createLinearGradient(0, 0, p.width, 0);
+    const brightColor = adjustColor(p.color, 30);
+    gradient.addColorStop(0, p.color);
+    gradient.addColorStop(0.3, brightColor);
+    gradient.addColorStop(0.7, brightColor);
+    gradient.addColorStop(1, p.color);
+    
+    ctx.fillStyle = gradient;
 
-    ctx.fillStyle = p.color;
-
-    // Rounded rectangle (alternative to plain rect)
+    // Rounded rectangle with better styling
     ctx.beginPath();
-    ctx.roundRect(0, 0, p.width, p.height,7);
+    ctx.roundRect(0, 0, p.width, p.height, 8);
     ctx.fill();
+    
+    // Add inner highlight for depth
+    ctx.fillStyle = `rgba(255, 255, 255, 0.2)`;
+    ctx.beginPath();
+    ctx.roundRect(2, 2, p.width - 4, p.height * 0.3, 6);
+    ctx.fill();
+    
+    // Add border highlight
+    ctx.strokeStyle = `rgba(255, 255, 255, 0.3)`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(0, 0, p.width, p.height, 8);
+    ctx.stroke();
     
     ctx.restore();
   }
+  
+  // Helper function to adjust color brightness
+  function adjustColor(color, amount) {
+    // Simple color brightness adjustment for hex colors
+    if (color && color.startsWith('#')) {
+      const num = parseInt(color.replace('#', ''), 16);
+      const r = Math.min(255, Math.max(0, ((num >> 16) & 0xFF) + amount));
+      const g = Math.min(255, Math.max(0, ((num >> 8) & 0xFF) + amount));
+      const b = Math.min(255, Math.max(0, (num & 0xFF) + amount));
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+    // For RGB colors, try to parse and adjust
+    if (color && color.startsWith('rgb')) {
+      const matches = color.match(/\d+/g);
+      if (matches && matches.length >= 3) {
+        const r = Math.min(255, Math.max(0, parseInt(matches[0]) + amount));
+        const g = Math.min(255, Math.max(0, parseInt(matches[1]) + amount));
+        const b = Math.min(255, Math.max(0, parseInt(matches[2]) + amount));
+        return `rgb(${r}, ${g}, ${b})`;
+      }
+    }
+    return color;
+  }
 
 
-  canvasBackgroundImage.onload = function () {
-    ctx.drawImage(canvasBackgroundImage, 0, 0, w, h);
-    //draw current ball, players
-    
-    drawBall(); 
-    drawPlayer(player1); 
-    drawPlayer(player2);
-  };
+  // Draw initial canvas background and game objects
+  drawCanvasBackground();
+  drawBall(); 
+  drawPlayer(player1); 
+  drawPlayer(player2);
   
 
   document.addEventListener('keydown', keydownHandler);
@@ -402,7 +515,7 @@ window.onload = function init() {
       // clear the canvas i.e remove previous ball and players
       ctx.clearRect(0, 0, w, h);
       
-      ctx.drawImage(canvasBackgroundImage, 0, 0, w, h);
+      drawCanvasBackground();
 
       //draw current ball, players, obstacle
       drawBall(); 
@@ -458,17 +571,44 @@ window.onload = function init() {
     ctx.save();
     ctx.translate(obstacle.x + obstacle.size / 2, obstacle.y + obstacle.size / 2);
     
-    // Glowing red square
-    ctx.rotate(obstacle.angle);
+    // Enhanced glow effect
+    ctx.shadowBlur = 35;
+    ctx.shadowColor = "rgba(255, 0, 0, 0.8)";
+    
+    // Outer glow ring
+    ctx.fillStyle = "rgba(255, 0, 0, 0.2)";
+    ctx.beginPath();
+    ctx.arc(0, 0, obstacle.size / 2 + 5, 0, 2 * Math.PI);
+    ctx.fill();
+    
     ctx.shadowBlur = 30;
     ctx.shadowColor = "red";
-    ctx.strokeStyle = "red";
-    ctx.lineWidth = 4;
+    
+    // Glowing red square with gradient
+    ctx.rotate(obstacle.angle);
+    const squareGradient = ctx.createLinearGradient(
+      -obstacle.size / 2, -obstacle.size / 2,
+      obstacle.size / 2, obstacle.size / 2
+    );
+    squareGradient.addColorStop(0, "#ff0000");
+    squareGradient.addColorStop(0.5, "#ff3333");
+    squareGradient.addColorStop(1, "#cc0000");
+    
+    ctx.strokeStyle = squareGradient;
+    ctx.lineWidth = 5;
     ctx.strokeRect(-obstacle.size / 2, -obstacle.size / 2, obstacle.size, obstacle.size);
     
-    // Rotating inner diamond
+    // Rotating inner diamond with gradient
     ctx.rotate(-2*obstacle.angle);
-    ctx.fillStyle = "rgba(255, 0, 0, 0.8)";
+    const diamondGradient = ctx.createLinearGradient(
+      -obstacle.size / 3, -obstacle.size / 3,
+      obstacle.size / 3, obstacle.size / 3
+    );
+    diamondGradient.addColorStop(0, "rgba(255, 100, 100, 0.9)");
+    diamondGradient.addColorStop(0.5, "rgba(255, 0, 0, 0.9)");
+    diamondGradient.addColorStop(1, "rgba(200, 0, 0, 0.9)");
+    
+    ctx.fillStyle = diamondGradient;
     ctx.beginPath();
     ctx.moveTo(0, -obstacle.size / 3);
     ctx.lineTo(obstacle.size / 3, 0);
@@ -481,41 +621,76 @@ window.onload = function init() {
     ctx.save();
     ctx.translate(obstacle.x + obstacle.size / 2, obstacle.y + obstacle.size / 2);
 
-    // Inner circle for depth
-    ctx.fillStyle = "black";
+    // Enhanced inner circle for depth
+    const circleGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, obstacle.size / 4);
+    circleGradient.addColorStop(0, "#330000");
+    circleGradient.addColorStop(1, "#000000");
+    ctx.fillStyle = circleGradient;
     ctx.beginPath();
     ctx.arc(0, 0, obstacle.size / 4, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Skull icon in the center
+    // Skull icon in the center with slight glow
+    ctx.shadowBlur = 5;
+    ctx.shadowColor = "rgba(255, 255, 255, 0.5)";
     drawSkull(ctx, 0, 0, obstacle.size / 3);
+    ctx.shadowBlur = 0;
 
     ctx.restore();
   }
 
   function drawPowerUp(){
     ctx.save();
-    ctx.translate(powerUp.x,powerUp.y);
+    ctx.translate(powerUp.x, powerUp.y);
 
-    ctx.shadowColor = "rgba(173, 216, 230, 0.9)"; // Light Cyan Glow
+    // Enhanced multi-layered glow
+    ctx.shadowBlur = 30;
+    ctx.shadowColor = "rgba(255, 165, 0, 0.8)";
+    
+    // Outer glow ring
+    ctx.fillStyle = "rgba(255, 165, 0, 0.2)";
+    ctx.beginPath();
+    ctx.arc(0, 0, powerUp.radius + 5, 0, 2 * Math.PI);
+    ctx.fill();
+    
     ctx.shadowBlur = 25;
+    ctx.shadowColor = "rgba(173, 216, 230, 0.9)"; // Light Cyan Glow
 
+    // Enhanced gradient with more color stops
     const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, powerUp.radius);
-    gradient.addColorStop(0, '#FF4500'); // Neon Orange
-    gradient.addColorStop(1, '#00E5FF'); // Electric Blue
+    gradient.addColorStop(0, '#FFD700'); // Bright Gold center
+    gradient.addColorStop(0.3, '#FF4500'); // Neon Orange
+    gradient.addColorStop(0.6, '#FF6347'); // Tomato
+    gradient.addColorStop(1, '#00E5FF'); // Electric Blue edge
 
     ctx.fillStyle = gradient;
     ctx.beginPath();
     ctx.arc(0, 0, powerUp.radius, 0, 2 * Math.PI);
     ctx.fill();
 
+    // Inner highlight
+    ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+    ctx.beginPath();
+    ctx.arc(-powerUp.radius * 0.3, -powerUp.radius * 0.3, powerUp.radius * 0.3, 0, 2 * Math.PI);
+    ctx.fill();
+
     ctx.shadowColor = "rgba(0, 0, 0, 0)"; // Reset shadow
 
-    // Plus sign (two perpendicular rectangles)
+    // Enhanced plus sign with glow
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = "rgba(255, 215, 0, 0.8)";
     ctx.fillStyle = "#FFD700"; // Bright Gold
-    let plusSize = powerUp.radius * 0.2;
-    ctx.fillRect(-plusSize / 2, -plusSize * 1.5, plusSize, plusSize * 3);
-    ctx.fillRect(-plusSize * 1.5, -plusSize / 2, plusSize * 3, plusSize);
+    let plusSize = powerUp.radius * 0.25;
+    
+    // Draw plus sign with rounded ends
+    ctx.beginPath();
+    ctx.roundRect(-plusSize / 2, -plusSize * 1.5, plusSize, plusSize * 3, plusSize / 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.roundRect(-plusSize * 1.5, -plusSize / 2, plusSize * 3, plusSize, plusSize / 2);
+    ctx.fill();
+    
+    ctx.shadowBlur = 0;
 
     ctx.restore();
   }

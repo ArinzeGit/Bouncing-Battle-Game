@@ -257,11 +257,9 @@ header div h1 {
 
 
 .winStatus{
-  font-size: 20px;
-  margin: 5px 0 0 0;
-  line-height: 1.2;
-  text-align: center;
-  min-height: 24px;
+  font-size: 50px;
+  margin: 0;
+  line-height: 1;
 }
 
 #gameCanvas{
@@ -312,42 +310,6 @@ header div h1 {
   z-index: 1000;
 }
 
-.close-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: transparent;
-  border: none;
-  color: #f9f9f9;
-  font-size: 32px;
-  font-weight: bold;
-  cursor: pointer;
-  line-height: 1;
-  padding: 0;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  z-index: 1001;
-  min-width: auto;
-  box-shadow: none;
-}
-
-.close-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: var(--linkColor);
-  transform: scale(1.1);
-  text-shadow: 0 0 8px rgba(255, 167, 38, 0.8);
-}
-
-.close-button:active {
-  transform: scale(0.9);
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
 #dropdownContent.show, #howToPlayContent.show {
   opacity: 1;
   clip-path: circle(100% at 50% 50%);
@@ -356,10 +318,6 @@ header div h1 {
 #howToPlayContent h2 {
   margin-top: 0;
   color: var(--green);
-}
-
-#howToPlayContent p strong {
-  color: var(--linkColor);
 }
 
 #dropdownContent a {
