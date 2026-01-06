@@ -68,9 +68,8 @@ window.onload = function init() {
   const playPauseButton = document.querySelector('#playPauseButton');
   let restartButton; // = document.querySelector('#restartButton') but I cannot assign now since the element will be created dynamically.
   
-  const dropdownButtonDiv = document.querySelector("#dropdownButtonDiv");
-  const dropdownButton = document.querySelector("#dropdownButton");
-  const dropdownContent = document.querySelector("#dropdownContent");
+  const aboutButton = document.querySelector("#aboutButton");
+  const aboutContent = document.querySelector("#aboutContent");
   const howToPlayButton = document.querySelector("#howToPlayButton");
   const howToPlayContent = document.querySelector("#howToPlayContent");
   const closeAboutButton = document.querySelector("#closeAboutButton");
@@ -78,11 +77,11 @@ window.onload = function init() {
   const blur = document.querySelector("#blur");
   
   function updateBlur() {
-    blur.classList.toggle("show", dropdownContent.classList.contains("show") || howToPlayContent.classList.contains("show"));
+    blur.classList.toggle("show", aboutContent.classList.contains("show") || howToPlayContent.classList.contains("show"));
   }
 
   function closeAbout() {
-    dropdownContent.classList.remove("show");
+    aboutContent.classList.remove("show");
     updateBlur();
   }
 
@@ -91,9 +90,9 @@ window.onload = function init() {
     updateBlur();
   }
 
-  dropdownButton.addEventListener("click", function () {
+  aboutButton.addEventListener("click", function () {
     closeHowToPlay(); // Close other popup if open
-    dropdownContent.classList.toggle("show");
+    aboutContent.classList.toggle("show");
     updateBlur();
   });
 
@@ -107,7 +106,7 @@ window.onload = function init() {
   closeHowToPlayButton.addEventListener("click", closeHowToPlay);
 
   document.addEventListener('click', function(evt) {
-    if (dropdownContent.classList.contains("show") && !dropdownContent.contains(evt.target) && !dropdownButton.contains(evt.target)) {
+    if (aboutContent.classList.contains("show") && !aboutContent.contains(evt.target) && !aboutButton.contains(evt.target)) {
       closeAbout();
     }
     if (howToPlayContent.classList.contains("show") && !howToPlayContent.contains(evt.target) && !howToPlayButton.contains(evt.target)) {
