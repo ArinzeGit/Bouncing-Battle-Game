@@ -642,53 +642,109 @@ window.onload = function init() {
     ctx.save();
     ctx.translate(powerUp.x, powerUp.y);
 
-    // Enhanced multi-layered glow
-    ctx.shadowBlur = 30;
-    ctx.shadowColor = "rgba(255, 165, 0, 0.8)";
-    
-    // Outer glow ring
-    ctx.fillStyle = "rgba(255, 165, 0, 0.2)";
-    ctx.beginPath();
-    ctx.arc(0, 0, powerUp.radius + 5, 0, 2 * Math.PI);
-    ctx.fill();
-    
-    ctx.shadowBlur = 25;
-    ctx.shadowColor = "rgba(173, 216, 230, 0.9)"; // Light Cyan Glow
+    // Time-based animation for pulsing and rotation - slowed down
+    const time = Date.now() * 0.003;
+    const pulse = 0.92 + Math.sin(time * 1.2) * 0.08; // Slower, subtler pulsing
+    const rotation = time * 0.3; // Slower rotation
+    const colorCycle = Math.sin(time * 0.3) * 0.5 + 0.5; // Slower color cycling
 
-    // Enhanced gradient with more color stops
-    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, powerUp.radius);
-    gradient.addColorStop(0, '#FFD700'); // Bright Gold center
-    gradient.addColorStop(0.3, '#FF4500'); // Neon Orange
-    gradient.addColorStop(0.6, '#FF6347'); // Tomato
-    gradient.addColorStop(1, '#00E5FF'); // Electric Blue edge
+    // Neon color palette from game theme
+    const neonColors = [
+      { r: 0, g: 162, b: 255 },    // Blue #00A2FF
+      { r: 0, g: 255, b: 102 },    // Green #00FF66
+      { r: 255, g: 68, b: 204 },   // Purple #FF44CC
+      { r: 255, g: 69, b: 0 },     // Red #FF4500
+      { r: 255, g: 170, b: 51 }    // Orange #FFAA33
+    ];
+    
+    // Cycle through colors smoothly
+    const colorIndex = Math.floor(colorCycle * (neonColors.length - 1));
+    const nextColorIndex = (colorIndex + 1) % neonColors.length;
+    const colorBlend = (colorCycle * (neonColors.length - 1)) % 1;
+    
+    const currentColor = neonColors[colorIndex];
+    const nextColor = neonColors[nextColorIndex];
+    const r = Math.floor(currentColor.r + (nextColor.r - currentColor.r) * colorBlend);
+    const g = Math.floor(currentColor.g + (nextColor.g - currentColor.g) * colorBlend);
+    const b = Math.floor(currentColor.b + (nextColor.b - currentColor.b) * colorBlend);
+    const colorStr = `rgb(${r}, ${g}, ${b})`;
+    const colorStrAlpha = (alpha) => `rgba(${r}, ${g}, ${b}, ${alpha})`;
+
+    // Outer energy glow - toned down
+    const glowIntensity = 0.3 + Math.sin(time * 1.5) * 0.15;
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = colorStrAlpha(glowIntensity);
+    const glowRadius = powerUp.radius * pulse;
+    ctx.fillStyle = colorStrAlpha(0.08 * pulse);
+    ctx.beginPath();
+    ctx.arc(0, 0, glowRadius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Main energy core - reduced brightness
+    const coreRadius = powerUp.radius * pulse;
+    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, coreRadius);
+    gradient.addColorStop(0, colorStrAlpha(0.6));
+    gradient.addColorStop(0.4, colorStrAlpha(0.4));
+    gradient.addColorStop(0.8, colorStrAlpha(0.15));
+    gradient.addColorStop(1, colorStrAlpha(0));
 
     ctx.fillStyle = gradient;
+    ctx.shadowBlur = 12;
+    ctx.shadowColor = colorStrAlpha(0.4);
     ctx.beginPath();
-    ctx.arc(0, 0, powerUp.radius, 0, 2 * Math.PI);
+    ctx.arc(0, 0, coreRadius, 0, 2 * Math.PI);
     ctx.fill();
+    ctx.shadowBlur = 0;
 
-    // Inner highlight
-    ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
-    ctx.beginPath();
-    ctx.arc(-powerUp.radius * 0.3, -powerUp.radius * 0.3, powerUp.radius * 0.3, 0, 2 * Math.PI);
-    ctx.fill();
+    // Rotating energy particles - slower and dimmer
+    ctx.save();
+    ctx.rotate(rotation);
+    const particleCount = 4;
+    for (let i = 0; i < particleCount; i++) {
+      const angle = (Math.PI * 2 / particleCount) * i;
+      const orbitRadius = powerUp.radius * 0.65;
+      const particleX = Math.cos(angle) * orbitRadius;
+      const particleY = Math.sin(angle) * orbitRadius;
+      const particleSize = 3 + Math.sin(time * 2 + i) * 1;
+      
+      ctx.fillStyle = colorStrAlpha(0.5);
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = colorStrAlpha(0.3);
+      ctx.beginPath();
+      ctx.arc(particleX, particleY, particleSize, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    ctx.restore();
 
-    ctx.shadowColor = "rgba(0, 0, 0, 0)"; // Reset shadow
-
-    // Enhanced plus sign with glow
-    ctx.shadowBlur = 8;
-    ctx.shadowColor = "rgba(255, 215, 0, 0.8)";
-    ctx.fillStyle = "#FFD700"; // Bright Gold
-    let plusSize = powerUp.radius * 0.25;
+    // Center core - reduced brightness
+    const coreSize = powerUp.radius * 0.35 * pulse;
+    const coreGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, coreSize);
+    coreGradient.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
+    coreGradient.addColorStop(0.6, colorStrAlpha(0.4));
+    coreGradient.addColorStop(1, colorStrAlpha(0.1));
     
-    // Draw plus sign with rounded ends
+    ctx.fillStyle = coreGradient;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = colorStrAlpha(0.5);
     ctx.beginPath();
-    ctx.roundRect(-plusSize / 2, -plusSize * 1.5, plusSize, plusSize * 3, plusSize / 2);
+    ctx.arc(0, 0, coreSize, 0, 2 * Math.PI);
     ctx.fill();
-    ctx.beginPath();
-    ctx.roundRect(-plusSize * 1.5, -plusSize / 2, plusSize * 3, plusSize, plusSize / 2);
-    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Single energy wave - slower and subtler
+    const wavePhase = time * 1.2;
+    const waveRadius = powerUp.radius * (0.5 + Math.sin(wavePhase) * 0.5);
+    const waveAlpha = Math.max(0, Math.sin(wavePhase) * 0.2);
     
+    ctx.strokeStyle = colorStrAlpha(waveAlpha);
+    ctx.lineWidth = 1.5;
+    ctx.shadowBlur = 6;
+    ctx.shadowColor = colorStrAlpha(waveAlpha * 0.4);
+    ctx.beginPath();
+    ctx.arc(0, 0, waveRadius, 0, 2 * Math.PI);
+    ctx.stroke();
     ctx.shadowBlur = 0;
 
     ctx.restore();
