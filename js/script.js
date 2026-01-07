@@ -555,84 +555,101 @@ window.onload = function init() {
     }
   }
 
-  const skullPath = new Path2D("M368 128c0 44.4-25.4 83.5-64 106.4l0 21.6c0 17.7-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32l0-21.6c-38.6-23-64-62.1-64-106.4C80 57.3 144.5 0 224 0s144 57.3 144 128zM168 176a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm144-32a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM3.4 273.7c7.9-15.8 27.1-22.2 42.9-14.3L224 348.2l177.7-88.8c15.8-7.9 35-1.5 42.9 14.3s1.5 35-14.3 42.9L295.6 384l134.8 67.4c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L224 419.8 46.3 508.6c-15.8 7.9-35 1.5-42.9-14.3s-1.5-35 14.3-42.9L152.4 384 17.7 316.6C1.9 308.7-4.5 289.5 3.4 273.7z");
-
-  function drawSkull(ctx, x, y, size) {
-    ctx.save();
-    ctx.translate(x-size/2, y-size/2);
-    ctx.scale(size / 448, size / 512); // Scale the SVG proportionally
-    ctx.fillStyle = "white"; // Set the skull color
-    ctx.fill(skullPath);
-    ctx.restore();
-  }
-
   function drawObstacle() {
     ctx.save();
     ctx.translate(obstacle.x + obstacle.size / 2, obstacle.y + obstacle.size / 2);
     
-    // Enhanced glow effect
-    ctx.shadowBlur = 35;
-    ctx.shadowColor = "rgba(255, 0, 0, 0.8)";
+    // Time-based animation for subtle effects
+    const time = Date.now() * 0.002;
+    const pulse = 0.95 + Math.sin(time * 1.5) * 0.05;
     
-    // Outer glow ring
-    ctx.fillStyle = "rgba(255, 0, 0, 0.2)";
-    ctx.beginPath();
-    ctx.arc(0, 0, obstacle.size / 2 + 5, 0, 2 * Math.PI);
-    ctx.fill();
+    // Use cyan/blue for tech/holographic feel (not dangerous)
+    const primaryColor = "rgba(0, 255, 255, 0.9)"; // Cyan
+    const secondaryColor = "rgba(0, 162, 255, 0.7)"; // Blue
+    const accentColor = "rgba(255, 255, 255, 0.8)"; // White
     
-    ctx.shadowBlur = 30;
-    ctx.shadowColor = "red";
+    // Outer subtle glow
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "rgba(0, 255, 255, 0.4)";
     
-    // Glowing red square with gradient
+    // Main square frame - clean neon border
     ctx.rotate(obstacle.angle);
-    const squareGradient = ctx.createLinearGradient(
-      -obstacle.size / 2, -obstacle.size / 2,
-      obstacle.size / 2, obstacle.size / 2
+    const frameSize = obstacle.size * pulse;
+    const frameThickness = Math.max(2, obstacle.size * 0.08);
+    
+    // Outer frame with gradient
+    const frameGradient = ctx.createLinearGradient(
+      -frameSize / 2, -frameSize / 2,
+      frameSize / 2, frameSize / 2
     );
-    squareGradient.addColorStop(0, "#ff0000");
-    squareGradient.addColorStop(0.5, "#ff3333");
-    squareGradient.addColorStop(1, "#cc0000");
+    frameGradient.addColorStop(0, primaryColor);
+    frameGradient.addColorStop(0.5, secondaryColor);
+    frameGradient.addColorStop(1, primaryColor);
     
-    ctx.strokeStyle = squareGradient;
-    ctx.lineWidth = 5;
-    ctx.strokeRect(-obstacle.size / 2, -obstacle.size / 2, obstacle.size, obstacle.size);
+    ctx.strokeStyle = frameGradient;
+    ctx.lineWidth = frameThickness;
+    ctx.strokeRect(-frameSize / 2, -frameSize / 2, frameSize, frameSize);
     
-    // Rotating inner diamond with gradient
-    ctx.rotate(-2*obstacle.angle);
-    const diamondGradient = ctx.createLinearGradient(
-      -obstacle.size / 3, -obstacle.size / 3,
-      obstacle.size / 3, obstacle.size / 3
-    );
-    diamondGradient.addColorStop(0, "rgba(255, 100, 100, 0.9)");
-    diamondGradient.addColorStop(0.5, "rgba(255, 0, 0, 0.9)");
-    diamondGradient.addColorStop(1, "rgba(200, 0, 0, 0.9)");
+    // Corner indicators - tech aesthetic
+    const cornerSize = obstacle.size * 0.15;
+    ctx.fillStyle = accentColor;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = "rgba(0, 255, 255, 0.6)";
     
-    ctx.fillStyle = diamondGradient;
+    // Top-left corner
+    ctx.fillRect(-frameSize / 2, -frameSize / 2, cornerSize, frameThickness);
+    ctx.fillRect(-frameSize / 2, -frameSize / 2, frameThickness, cornerSize);
+    
+    // Top-right corner
+    ctx.fillRect(frameSize / 2 - cornerSize, -frameSize / 2, cornerSize, frameThickness);
+    ctx.fillRect(frameSize / 2 - frameThickness, -frameSize / 2, frameThickness, cornerSize);
+    
+    // Bottom-left corner
+    ctx.fillRect(-frameSize / 2, frameSize / 2 - frameThickness, cornerSize, frameThickness);
+    ctx.fillRect(-frameSize / 2, frameSize / 2 - cornerSize, frameThickness, cornerSize);
+    
+    // Bottom-right corner
+    ctx.fillRect(frameSize / 2 - cornerSize, frameSize / 2 - frameThickness, cornerSize, frameThickness);
+    ctx.fillRect(frameSize / 2 - frameThickness, frameSize / 2 - cornerSize, frameThickness, cornerSize);
+    
+    ctx.shadowBlur = 0;
+    
+    // Inner rotating tech pattern - suggests deflection/reflection
+    ctx.rotate(-obstacle.angle * 2);
+    const innerSize = obstacle.size * 0.6;
+    
+    // Grid pattern inside
+    ctx.strokeStyle = "rgba(0, 255, 255, 0.3)";
+    ctx.lineWidth = 1;
+    const gridSpacing = innerSize / 4;
+    
+    for (let i = -2; i <= 2; i++) {
+      // Vertical lines
+      ctx.beginPath();
+      ctx.moveTo(i * gridSpacing, -innerSize / 2);
+      ctx.lineTo(i * gridSpacing, innerSize / 2);
+      ctx.stroke();
+      
+      // Horizontal lines
+      ctx.beginPath();
+      ctx.moveTo(-innerSize / 2, i * gridSpacing);
+      ctx.lineTo(innerSize / 2, i * gridSpacing);
+      ctx.stroke();
+    }
+    
+    // Center energy core
+    const coreSize = obstacle.size * 0.25;
+    const coreGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, coreSize);
+    coreGradient.addColorStop(0, "rgba(255, 255, 255, 0.6)");
+    coreGradient.addColorStop(0.5, "rgba(0, 255, 255, 0.4)");
+    coreGradient.addColorStop(1, "rgba(0, 162, 255, 0.1)");
+    
+    ctx.fillStyle = coreGradient;
+    ctx.shadowBlur = 12;
+    ctx.shadowColor = "rgba(0, 255, 255, 0.5)";
     ctx.beginPath();
-    ctx.moveTo(0, -obstacle.size / 3);
-    ctx.lineTo(obstacle.size / 3, 0);
-    ctx.lineTo(0, obstacle.size / 3);
-    ctx.lineTo(-obstacle.size / 3, 0);
-    ctx.closePath();
+    ctx.arc(0, 0, coreSize, 0, 2 * Math.PI);
     ctx.fill();
-
-    ctx.restore();
-    ctx.save();
-    ctx.translate(obstacle.x + obstacle.size / 2, obstacle.y + obstacle.size / 2);
-
-    // Enhanced inner circle for depth
-    const circleGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, obstacle.size / 4);
-    circleGradient.addColorStop(0, "#330000");
-    circleGradient.addColorStop(1, "#000000");
-    ctx.fillStyle = circleGradient;
-    ctx.beginPath();
-    ctx.arc(0, 0, obstacle.size / 4, 0, 2 * Math.PI);
-    ctx.fill();
-
-    // Skull icon in the center with slight glow
-    ctx.shadowBlur = 5;
-    ctx.shadowColor = "rgba(255, 255, 255, 0.5)";
-    drawSkull(ctx, 0, 0, obstacle.size / 3);
     ctx.shadowBlur = 0;
 
     ctx.restore();
@@ -667,7 +684,6 @@ window.onload = function init() {
     const r = Math.floor(currentColor.r + (nextColor.r - currentColor.r) * colorBlend);
     const g = Math.floor(currentColor.g + (nextColor.g - currentColor.g) * colorBlend);
     const b = Math.floor(currentColor.b + (nextColor.b - currentColor.b) * colorBlend);
-    const colorStr = `rgb(${r}, ${g}, ${b})`;
     const colorStrAlpha = (alpha) => `rgba(${r}, ${g}, ${b}, ${alpha})`;
 
     // Outer energy glow - toned down
