@@ -1,6 +1,10 @@
 window.onload = function init() {
 
-  // console.log("page loaded and DOM is ready");
+  // Detect touch device and show touch controls
+  const isTouchDevice = 'ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+  if (isTouchDevice) {
+    document.body.classList.add('touch-device');
+  }
 
   const rootStyles = getComputedStyle(document.documentElement);
   
@@ -90,26 +94,61 @@ window.onload = function init() {
     updateBlur();
   }
 
-  aboutButton.addEventListener("click", function () {
-    closeHowToPlay(); // Close other popup if open
-    aboutContent.classList.toggle("show");
-    updateBlur();
+  const landingPage = document.querySelector("#landingPage");
+  const gameView = document.querySelector("#gameView");
+  const startGameButton = document.querySelector("#startGameButton");
+  const landingAboutButton = document.querySelector("#landingAboutButton");
+  const landingHowToPlayButton = document.querySelector("#landingHowToPlayButton");
+
+  startGameButton.addEventListener("click", function () {
+
+    // Draw initial game objects
+    ctx.clearRect(0, 0, w, h);
+    drawCanvasBackground();
+    drawBall(); 
+    drawPlayer(player1); 
+    drawPlayer(player2);
+    drawPowerUp();
+    drawObstacle();
+
+    landingPage.classList.add("hidden");
+    gameView.classList.remove("hidden");
   });
 
-  howToPlayButton.addEventListener("click", function () {
-    closeAbout(); // Close other popup if open
-    howToPlayContent.classList.toggle("show");
-    updateBlur();
+  const backButton = document.querySelector("#backButton");
+  backButton.addEventListener("click", function () {
+    gameView.classList.add("hidden");
+    landingPage.classList.remove("hidden");
+    if (animationId) { //if the animation frame is running, stop it.
+      cancelAnimationFrame(animationId);
+      animationId = undefined;
+    }
+    resetAllVariables();
   });
+
+  function openAbout() {
+    closeHowToPlay();
+    aboutContent.classList.add("show");
+    updateBlur();
+  }
+
+  function openHowToPlay() {
+    closeAbout();
+    howToPlayContent.classList.add("show");
+    updateBlur();
+  }
+
+  landingAboutButton.addEventListener("click", openAbout);
+  landingHowToPlayButton.addEventListener("click", openHowToPlay);
 
   closeAboutButton.addEventListener("click", closeAbout);
   closeHowToPlayButton.addEventListener("click", closeHowToPlay);
 
   document.addEventListener('click', function(evt) {
-    if (aboutContent.classList.contains("show") && !aboutContent.contains(evt.target) && !aboutButton.contains(evt.target)) {
+    if (aboutContent.classList.contains("show") && !aboutContent.contains(evt.target) && !landingAboutButton.contains(evt.target)) {
       closeAbout();
     }
-    if (howToPlayContent.classList.contains("show") && !howToPlayContent.contains(evt.target) && !howToPlayButton.contains(evt.target)) {
+    if (howToPlayContent.classList.contains("show") && !howToPlayContent.contains(evt.target) && !landingHowToPlayButton.contains(evt.target)) {
       closeHowToPlay();
     }
   });
@@ -354,16 +393,7 @@ window.onload = function init() {
     return color;
   }
 
-
-  // Draw initial canvas background and game objects
-  drawCanvasBackground();
-  drawBall(); 
-  drawPlayer(player1); 
-  drawPlayer(player2);
-  
-
   document.addEventListener('keydown', keydownHandler);
-
 
   function keydownHandler(event) {
     if (event.key === 'ArrowUp') {
@@ -381,7 +411,7 @@ window.onload = function init() {
 
 
   document.addEventListener('keyup', keyupHandler);
-  
+
 
   function keyupHandler(event) {
     if (event.key === 'ArrowUp') {
@@ -395,16 +425,55 @@ window.onload = function init() {
     }
   }
 
+  // Touch controls for mobile - use pointer events (work for touch and mouse)
+  function setupTouchControls() {
+    const p1Up = document.querySelector('#player1TouchControls .touch-up');
+    const p1Down = document.querySelector('#player1TouchControls .touch-down');
+    const p2Up = document.querySelector('#player2TouchControls .touch-up');
+    const p2Down = document.querySelector('#player2TouchControls .touch-down');
+
+    function addPointerHandlers(el, onDown, onUp) {
+      el.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        onDown();
+        el.setPointerCapture(e.pointerId);
+      });
+      el.addEventListener('pointerup', function (e) {
+        e.preventDefault();
+        onUp();
+        el.releasePointerCapture(e.pointerId);
+      });
+      el.addEventListener('pointerleave', function (e) {
+        onUp();
+      });
+      el.addEventListener('pointercancel', function (e) {
+        onUp();
+      });
+    }
+
+    addPointerHandlers(p1Up,
+      () => { isWPressed = true; },
+      () => { isWPressed = false; }
+    );
+    addPointerHandlers(p1Down,
+      () => { isSPressed = true; },
+      () => { isSPressed = false; }
+    );
+    addPointerHandlers(p2Up,
+      () => { isArrowUpPressed = true; },
+      () => { isArrowUpPressed = false; }
+    );
+    addPointerHandlers(p2Down,
+      () => { isArrowDownPressed = true; },
+      () => { isArrowDownPressed = false; }
+    );
+  }
+  setupTouchControls();
 
   document.querySelector('#playPauseButton').addEventListener('click',startStopBallLoop);
 
 
   function startStopBallLoop() {
-    if (!restartButton) {
-      restartButtonDiv.innerHTML= '<button id="restartButton">RESTART</button>' //This makes restart button appear when game is started
-      restartButton = document.querySelector('#restartButton'); //I can assign the element now that it exists
-      restartButton.addEventListener('click', restart);
-    }
     if (!animationId) { //if the animation frame is not already running, let it run
       ballLoop();
       playBackgroundMusic();
@@ -418,17 +487,6 @@ window.onload = function init() {
       pauseSetTimeout();
     }
   }
-
-
-  function restart(){
-    if (animationId) { //if the animation frame is running, stop it.
-      cancelAnimationFrame(animationId);
-      animationId = undefined;
-    }
-    resetAllVariables();
-    startStopBallLoop();
-  }
-
 
   function playBackgroundMusic(){
     if((player1Health!==0)&&(player2Health!==0)){
@@ -503,6 +561,7 @@ window.onload = function init() {
     powerUp.y=-940;
     powerUp.speed=3;
     powerUp.radius=45;
+    playPauseButton.textContent ='PLAY';
   }
 
 

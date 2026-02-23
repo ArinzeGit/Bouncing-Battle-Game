@@ -45,20 +45,70 @@ body {
   font-family: 'Orbitron', sans-serif;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   min-height: 100vh;
 }
 
 main{
-  padding-top:max(20px,calc((100vh - 740px) / 4));
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+  padding: 15px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap:15px;
+  gap: 15px;
   color: #c8c8c8;
-  padding-left: 10px;
-  padding-right: 10px;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#landingPage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+#landingPage .landing-title {
+  padding: 15px 40px;
+}
+
+#landingButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+#landingButtons button {
+  min-width: 200px;
+}
+
+#startGameButton {
+  min-width: 220px;
+  padding: 16px 32px;
+  font-size: 20px;
+}
+
+#gameView {
+  flex: 1 1 0;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 
 p,label,select,li{
@@ -73,14 +123,7 @@ select{
   cursor:pointer;
 }
 
-header{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-header div.bright-glow{
+header div.bright-glow, #landingPage .landing-title{
   justify-self:center;
   text-align: center;
   border-radius: 15px;
@@ -173,19 +216,24 @@ header div h1 {
 }
 
 #gameSection{
-  display:flex;
-  gap:15px;
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  gap: 15px;
   align-items: center;
   justify-content: center;
 }
 
 #controlsSection {
+  flex-shrink: 0;
   display: flex;
   gap: 20px;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 0;
   padding: 20px 25px;
   backdrop-filter: blur(20px);
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(20, 20, 20, 0.5));
@@ -215,7 +263,7 @@ header div h1 {
 }
 
 #player1Div, #player2Div {
-  min-width: 150px;
+  min-width: 170px;
   padding: 15px 20px;
   backdrop-filter: blur(64px);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
@@ -303,7 +351,21 @@ header div h1 {
   min-height: 24px;
 }
 
+#canvasDiv{
+  flex: 1 1 500;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+}
+
 #gameCanvas{
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  max-height: 500px;
   border: 3px solid rgba(255, 167, 38, 0.6);
   border-radius: 15px;
   background-color: transparent;
@@ -447,31 +509,12 @@ header div h1 {
     0 0 20px rgba(0, 255, 102, 0.4);
 }
 
-#howToPlayButton {
-  background: linear-gradient(135deg, rgba(255, 68, 204, 0.3), rgba(255, 170, 51, 0.3));
-  border-color: rgba(255, 68, 204, 0.5);
-}
-
-#howToPlayButton:hover {
-  background: linear-gradient(135deg, rgba(255, 68, 204, 0.5), rgba(255, 170, 51, 0.5));
-  border-color: rgba(255, 68, 204, 0.8);
-  box-shadow: 
-    0 8px 25px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(255, 68, 204, 0.6),
-    0 0 40px rgba(255, 68, 204, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  color: var(--purple);
-  text-shadow: 
-    0 0 10px rgba(255, 68, 204, 0.8),
-    0 0 20px rgba(255, 68, 204, 0.4);
-}
-
-#aboutButton {
+#backButton {
   background: linear-gradient(135deg, rgba(255, 69, 0, 0.3), rgba(255, 170, 51, 0.3));
   border-color: rgba(255, 69, 0, 0.5);
 }
 
-#aboutButton:hover {
+#backButton:hover {
   background: linear-gradient(135deg, rgba(255, 69, 0, 0.5), rgba(255, 170, 51, 0.5));
   border-color: rgba(255, 69, 0, 0.8);
   box-shadow: 
@@ -504,21 +547,47 @@ header div h1 {
     0 0 20px rgba(0, 162, 255, 0.4);
 }
 
-#restartButton {
-  background: linear-gradient(135deg, rgba(255, 170, 51, 0.3), rgba(255, 69, 0, 0.3));
-  border-color: rgba(255, 170, 51, 0.5);
+
+/* Touch controls - visible only when JS detects a touch device */
+.touch-controls {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-#restartButton:hover {
-  background: linear-gradient(135deg, rgba(255, 170, 51, 0.5), rgba(255, 69, 0, 0.5));
-  border-color: rgba(255, 170, 51, 0.8);
-  box-shadow: 
-    0 8px 25px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(255, 170, 51, 0.6),
-    0 0 40px rgba(255, 170, 51, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+body.touch-device .touch-controls {
+  display: flex;
+}
+
+.touch-controls .touch-btn {
+  min-width: 56px;
+  min-height: 56px;
+  padding: 12px 20px;
+  font-size: 24px;
+  line-height: 1;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#player1TouchControls .touch-btn {
+  border-color: rgba(0, 255, 102, 0.5);
+  color: var(--green);
+}
+
+#player1TouchControls .touch-btn:active {
+  background: linear-gradient(135deg, rgba(0, 255, 102, 0.4), rgba(0, 255, 102, 0.2));
+}
+
+#player2TouchControls .touch-btn {
+  border-color: rgba(255, 170, 51, 0.5);
   color: var(--orange);
-  text-shadow: 
-    0 0 10px rgba(255, 170, 51, 0.8),
-    0 0 20px rgba(255, 170, 51, 0.4);
+}
+
+#player2TouchControls .touch-btn:active {
+  background: linear-gradient(135deg, rgba(255, 170, 51, 0.4), rgba(255, 170, 51, 0.2));
 }

@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bouncing Battle</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -11,53 +12,66 @@
 
 <body>
   <main>
-    <header>
-      <div class="bright-glow">
+    <div id="landingPage">
+      <div class="bright-glow landing-title">
         <h1>BOUNCING BATTLE</h1>
       </div>
-    </header>
-
-    <section id="gameSection">
-      <div id="player1Div" class="bright-glow">
-        <h2 class="p1Color">P1</h2>
-        <label for="player1ColorSelector" class="secondary-font">Color:</label>
-        <select id="player1ColorSelector" class="secondary-font">
-          <option class="blue">Blue</option>
-          <option class="green" selected>Green</option>
-          <option class="purple">Purple</option>
-          <option class="red">red</option>
-          <option class="orange">Orange</option>
-        </select>
-        <div id="player1Hearts" class="hearts-container"></div>
-        <h1 class="p1Color winStatus" id="winStatus1"></h1>
+      <div id="landingButtons">
+        <button id="startGameButton">START</button>
+        <button id="landingHowToPlayButton">How to Play</button>
+        <button id="landingAboutButton">About</button>
       </div>
+    </div>
 
-      <div id="canvasDiv">
-        <canvas id="gameCanvas" class="bright-glow" width="500" height="500"></canvas>
-      </div>
-      
-      <div id="player2Div" class="bright-glow">
-        <h2 class="p2Color">P2</h2>
-        <label for="player2ColorSelector" class="secondary-font">Color:</label>
-        <select id="player2ColorSelector" class="secondary-font">
-          <option class="blue">Blue</option>
-          <option class="green">Green</option>
-          <option class="purple">Purple</option>
-          <option class="red">red</option>
-          <option class="orange" selected>Orange</option>
-        </select>
-        <div id="player2Hearts" class="hearts-container"></div>
-        <h1 class="p2Color winStatus" id="winStatus2"></h1>
-      </div>
-    </section>
+    <div id="gameView" class="hidden">
+      <section id="gameSection">
+        <div id="player1TouchControls" class="touch-controls">
+          <button type="button" class="touch-btn touch-up" aria-label="P1 Up">▲</button>
+          <button type="button" class="touch-btn touch-down" aria-label="P1 Down">▼</button>
+        </div>
+        <div id="player1Div" class="bright-glow">
+          <h2 class="p1Color">P1</h2>
+          <label for="player1ColorSelector" class="secondary-font">Color:</label>
+          <select id="player1ColorSelector" class="secondary-font">
+            <option class="blue">Blue</option>
+            <option class="green" selected>Green</option>
+            <option class="purple">Purple</option>
+            <option class="red">red</option>
+            <option class="orange">Orange</option>
+          </select>
+          <div id="player1Hearts" class="hearts-container"></div>
+          <h1 class="p1Color winStatus" id="winStatus1"></h1>
+        </div>
 
-    <section id="controlsSection">
-      <div id="restartButtonDiv"></div>
-      <button id="playPauseButton">PLAY</button>
-      <button id="howToPlayButton">How to Play</button>
-      <button id="aboutButton">About</button>
-      <button id="muteButton">MUTE</button>
-    </section>
+        <div id="canvasDiv">
+          <canvas id="gameCanvas" class="bright-glow" width="500" height="500"></canvas>
+        </div>
+        
+        <div id="player2Div" class="bright-glow">
+          <h2 class="p2Color">P2</h2>
+          <label for="player2ColorSelector" class="secondary-font">Color:</label>
+          <select id="player2ColorSelector" class="secondary-font">
+            <option class="blue">Blue</option>
+            <option class="green">Green</option>
+            <option class="purple">Purple</option>
+            <option class="red">red</option>
+            <option class="orange" selected>Orange</option>
+          </select>
+          <div id="player2Hearts" class="hearts-container"></div>
+          <h1 class="p2Color winStatus" id="winStatus2"></h1>
+        </div>
+        <div id="player2TouchControls" class="touch-controls">
+          <button type="button" class="touch-btn touch-up" aria-label="P2 Up">▲</button>
+          <button type="button" class="touch-btn touch-down" aria-label="P2 Down">▼</button>
+        </div>
+      </section>
+
+      <section id="controlsSection">
+        <button id="playPauseButton">PLAY</button>
+        <button id="muteButton">MUTE</button>
+        <button id="backButton">BACK</button>
+      </section>
+    </div>
   </main>
 
   <aside>
