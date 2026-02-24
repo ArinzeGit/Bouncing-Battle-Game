@@ -109,6 +109,12 @@ main{
   align-items: center;
   justify-content: center;
   gap: 15px;
+  /* Prevent selection/highlight on mobile while playing */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 p,label,select,li{
