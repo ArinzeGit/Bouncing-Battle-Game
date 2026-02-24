@@ -68,20 +68,22 @@ window.onload = function init() {
 
   const winStatus1=document.querySelector('#winStatus1');
   const winStatus2=document.querySelector('#winStatus2');
-  const restartButtonDiv = document.querySelector('#restartButtonDiv');
   const playPauseButton = document.querySelector('#playPauseButton');
-  let restartButton; // = document.querySelector('#restartButton') but I cannot assign now since the element will be created dynamically.
-  
-  const aboutButton = document.querySelector("#aboutButton");
+
   const aboutContent = document.querySelector("#aboutContent");
-  const howToPlayButton = document.querySelector("#howToPlayButton");
   const howToPlayContent = document.querySelector("#howToPlayContent");
   const closeAboutButton = document.querySelector("#closeAboutButton");
   const closeHowToPlayButton = document.querySelector("#closeHowToPlayButton");
   const blur = document.querySelector("#blur");
+  const settingsContent = document.querySelector("#settingsContent");
+  const settingsButton = document.querySelector("#settingsButton");
+  const closeSettingsButton = document.querySelector("#closeSettingsButton");
   
   function updateBlur() {
-    blur.classList.toggle("show", aboutContent.classList.contains("show") || howToPlayContent.classList.contains("show"));
+    blur.classList.toggle("show",
+      aboutContent.classList.contains("show") ||
+      howToPlayContent.classList.contains("show") ||
+      settingsContent.classList.contains("show"));
   }
 
   function closeAbout() {
@@ -91,6 +93,16 @@ window.onload = function init() {
 
   function closeHowToPlay() {
     howToPlayContent.classList.remove("show");
+    updateBlur();
+  }
+
+  function openSettings() {
+    settingsContent.classList.add("show");
+    updateBlur();
+  }
+
+  function closeSettings() {
+    settingsContent.classList.remove("show");
     updateBlur();
   }
 
@@ -143,13 +155,18 @@ window.onload = function init() {
 
   closeAboutButton.addEventListener("click", closeAbout);
   closeHowToPlayButton.addEventListener("click", closeHowToPlay);
-
+  closeSettingsButton.addEventListener("click", closeSettings);
+  settingsButton.addEventListener("click", openSettings);
+  
   document.addEventListener('click', function(evt) {
     if (aboutContent.classList.contains("show") && !aboutContent.contains(evt.target) && !landingAboutButton.contains(evt.target)) {
       closeAbout();
     }
     if (howToPlayContent.classList.contains("show") && !howToPlayContent.contains(evt.target) && !landingHowToPlayButton.contains(evt.target)) {
       closeHowToPlay();
+    }
+    if (settingsContent.classList.contains("show") && !settingsContent.contains(evt.target) && !settingsButton.contains(evt.target)) {
+      closeSettings();
     }
   });
 
@@ -1012,10 +1029,11 @@ window.onload = function init() {
     });
     
     hearts2.forEach((heart, index) => {
-      if (index < player2Health) {
-        heart.classList.remove('empty');
-      } else {
+      // P2 hearts empty left-to-right (leftmost disappear first)
+      if (index < fullHealth - player2Health) {
         heart.classList.add('empty');
+      } else {
+        heart.classList.remove('empty');
       }
     });
   }

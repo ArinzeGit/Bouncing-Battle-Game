@@ -262,52 +262,62 @@ header div h1 {
   color: var(--orange);
 }
 
-#player1Div, #player2Div {
-  min-width: 170px;
-  padding: 15px 20px;
-  backdrop-filter: blur(64px);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+#canvasColumn {
+  flex: 1 1 500;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  justify-content: center;
+  gap: 4px;
 }
 
-#player1Div:hover, #player2Div:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+#healthRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 2px;
+  min-height: 28px;
 }
 
-#player1Div h2, #player2Div h2 {
+#healthRow #player1Hearts {
+  justify-content: flex-start;
+}
+
+#healthRow #player2Hearts {
+  justify-content: flex-end;
+}
+
+#winStatusRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 2px;
+  min-height: 28px;
+}
+
+#winStatusRow #winStatus1 {
   margin: 0;
-  font-size: 28px;
-  font-weight: bold;
+  justify-self: flex-start;
+  text-align: left;
 }
 
-#player1Div label, #player2Div label {
+#winStatusRow #winStatus2 {
   margin: 0;
-  font-size: 16px;
-}
-
-#player1Div select, #player2Div select {
-  font-size: 14px;
-  padding: 5px 10px;
+  justify-self: flex-end;
+  text-align: right;
 }
 
 .hearts-container {
   display: flex;
-  gap: 5px;
-  justify-content: center;
+  gap: 4px;
   flex-wrap: wrap;
-  margin-top: 5px;
+  min-height: 24px;
 }
 
 .heart {
@@ -344,11 +354,10 @@ header div h1 {
 }
 
 .winStatus{
-  font-size: 20px;
-  margin: 5px 0 0 0;
+  font-size: 18px;
+  margin: 0;
   line-height: 1.2;
-  text-align: center;
-  min-height: 24px;
+  min-height: 22px;
 }
 
 #canvasDiv{
@@ -416,9 +425,53 @@ header div h1 {
   z-index: 1000;
 }
 
-#aboutContent.show, #howToPlayContent.show {
+#aboutContent.show, #howToPlayContent.show, #settingsContent.show {
   opacity: 1;
   clip-path: circle(100% at 50% 50%);
+}
+
+#settingsContent {
+  opacity: 0;
+  clip-path: circle(0% at 50% 50%);
+  transition: opacity 0.5s, clip-path 0.3s;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #f9f9f9;
+  backdrop-filter: blur(64px);
+  background-color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 30px rgb(188, 182, 166);
+  width: 400px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 8px;
+  padding: 20px;
+  z-index: 1000;
+}
+
+#settingsContent h2 {
+  margin-top: 0;
+  color: var(--linkColor);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.settings-row label {
+  margin: 0;
+  font-size: 16px;
+}
+
+.settings-row select {
+  font-size: 14px;
+  padding: 6px 10px;
 }
 
 .close-button {
