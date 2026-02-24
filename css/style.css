@@ -222,7 +222,7 @@ header div h1 {
   width: 100%;
   display: flex;
   gap: 15px;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 }
 
@@ -263,14 +263,16 @@ header div h1 {
 }
 
 #canvasColumn {
-  flex: 1 1 500;
+  flex: 1 1 0;
   min-width: 0;
   min-height: 0;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
+  align-self: stretch;
 }
 
 #healthRow {
@@ -360,21 +362,33 @@ header div h1 {
   min-height: 22px;
 }
 
-#canvasDiv{
-  flex: 1 1 500;
-  min-width: 0;
+/* Only takes the remaining height after health row and win status row (flex share, not 100%) */
+#canvasWrapper {
+  flex: 1 1 0;
   min-height: 0;
+  min-width: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1;
+  container-type: size;
 }
 
+/* Always square: side = min(wrapper width, wrapper height); never stretch to a rectangle */
+#canvasDiv{
+  width: min(100cqw, 100cqh);
+  height: min(100cqw, 100cqh);
+  flex-shrink: 0;
+  position: relative;
+  display: block;
+}
+
+/* Fills the square div; div is always square so canvas is never stretched to a rectangle */
 #gameCanvas{
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  max-width: 500px;
-  max-height: 500px;
   border: 3px solid rgba(255, 167, 38, 0.6);
   border-radius: 15px;
   background-color: transparent;
@@ -383,7 +397,6 @@ header div h1 {
     0 0 20px rgba(255, 167, 38, 0.4),
     0 0 40px rgba(255, 167, 38, 0.2),
     inset 0 0 30px rgba(0, 0, 0, 0.5);
-  position: relative;
 }
 
 #blur{
@@ -643,4 +656,58 @@ body.touch-device .touch-controls {
 
 #player2TouchControls .touch-btn:active {
   background: linear-gradient(135deg, rgba(255, 170, 51, 0.4), rgba(255, 170, 51, 0.2));
+}
+
+/* Touch controls: shrink on small screens to give more space to canvas */
+@media (max-width: 600px) {
+  .touch-controls {
+    gap: 8px;
+  }
+  .touch-controls .touch-btn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px 14px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .touch-controls {
+    gap: 6px;
+  }
+  .touch-controls .touch-btn {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 6px 10px;
+    font-size: 18px;
+  }
+}
+
+/* Short viewport (e.g. landscape on touch devices): reduce controls below canvas for more vertical space */
+@media (max-height: 500px) {
+  #controlsSection {
+    padding: 10px 16px;
+    gap: 12px;
+    border-radius: 12px;
+  }
+  #controlsSection button {
+    padding: 8px 16px;
+    font-size: 14px;
+    min-width: 90px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-height: 400px) {
+  #controlsSection {
+    padding: 6px 12px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+  #controlsSection button {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-width: 70px;
+    border-radius: 8px;
+  }
 }
