@@ -638,24 +638,12 @@ body.touch-device .touch-controls {
   line-height: 1;
   touch-action: none;
   -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  border-color: color-mix(in srgb, currentColor 50%, transparent);
 }
 
-#player1TouchControls .touch-btn {
-  border-color: rgba(0, 255, 102, 0.5);
-  color: var(--green);
-}
-
-#player1TouchControls .touch-btn:active {
-  background: linear-gradient(135deg, rgba(0, 255, 102, 0.4), rgba(0, 255, 102, 0.2));
-}
-
-#player2TouchControls .touch-btn {
-  border-color: rgba(255, 170, 51, 0.5);
-  color: var(--orange);
-}
-
-#player2TouchControls .touch-btn:active {
-  background: linear-gradient(135deg, rgba(255, 170, 51, 0.4), rgba(255, 170, 51, 0.2));
+.touch-controls .touch-btn:active {
+  background: color-mix(in srgb, currentColor 30%, transparent);
 }
 
 /* Touch controls: shrink on small screens to give more space to canvas */
