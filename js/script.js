@@ -72,8 +72,10 @@ window.onload = function init() {
 
   const aboutContent = document.querySelector("#aboutContent");
   const howToPlayContent = document.querySelector("#howToPlayContent");
+  const privacyContent = document.querySelector("#privacyContent");
   const closeAboutButton = document.querySelector("#closeAboutButton");
   const closeHowToPlayButton = document.querySelector("#closeHowToPlayButton");
+  const closePrivacyButton = document.querySelector("#closePrivacyButton");
   const blur = document.querySelector("#blur");
   const settingsContent = document.querySelector("#settingsContent");
   const settingsButton = document.querySelector("#settingsButton");
@@ -83,6 +85,7 @@ window.onload = function init() {
     blur.classList.toggle("show",
       aboutContent.classList.contains("show") ||
       howToPlayContent.classList.contains("show") ||
+      privacyContent.classList.contains("show") ||
       settingsContent.classList.contains("show"));
   }
 
@@ -93,6 +96,11 @@ window.onload = function init() {
 
   function closeHowToPlay() {
     howToPlayContent.classList.remove("show");
+    updateBlur();
+  }
+
+  function closePrivacy() {
+    privacyContent.classList.remove("show");
     updateBlur();
   }
 
@@ -111,6 +119,7 @@ window.onload = function init() {
   const startGameButton = document.querySelector("#startGameButton");
   const landingAboutButton = document.querySelector("#landingAboutButton");
   const landingHowToPlayButton = document.querySelector("#landingHowToPlayButton");
+  const landingPrivacyButton = document.querySelector("#landingPrivacyButton");
 
   startGameButton.addEventListener("click", function () {
 
@@ -140,21 +149,32 @@ window.onload = function init() {
 
   function openAbout() {
     closeHowToPlay();
+    closePrivacy();
     aboutContent.classList.add("show");
     updateBlur();
   }
 
   function openHowToPlay() {
     closeAbout();
+    closePrivacy();
     howToPlayContent.classList.add("show");
+    updateBlur();
+  }
+
+  function openPrivacy() {
+    closeAbout();
+    closeHowToPlay();
+    privacyContent.classList.add("show");
     updateBlur();
   }
 
   landingAboutButton.addEventListener("click", openAbout);
   landingHowToPlayButton.addEventListener("click", openHowToPlay);
+  landingPrivacyButton.addEventListener("click", openPrivacy);
 
   closeAboutButton.addEventListener("click", closeAbout);
   closeHowToPlayButton.addEventListener("click", closeHowToPlay);
+  closePrivacyButton.addEventListener("click", closePrivacy);
   closeSettingsButton.addEventListener("click", closeSettings);
   settingsButton.addEventListener("click", openSettings);
   
@@ -164,6 +184,9 @@ window.onload = function init() {
     }
     if (howToPlayContent.classList.contains("show") && !howToPlayContent.contains(evt.target) && !landingHowToPlayButton.contains(evt.target)) {
       closeHowToPlay();
+    }
+    if (privacyContent.classList.contains("show") && !privacyContent.contains(evt.target) && !landingPrivacyButton.contains(evt.target)) {
+      closePrivacy();
     }
     if (settingsContent.classList.contains("show") && !settingsContent.contains(evt.target) && !settingsButton.contains(evt.target)) {
       closeSettings();

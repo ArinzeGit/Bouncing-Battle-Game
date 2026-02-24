@@ -427,7 +427,7 @@ header div h1 {
   display:block;
 }
 
-#aboutContent, #howToPlayContent {
+#aboutContent, #howToPlayContent, #privacyContent {
   opacity: 0;
   clip-path: circle(0% at 50% 50%);
   transition: opacity 0.5s, clip-path 0.3s;
@@ -448,7 +448,7 @@ header div h1 {
   z-index: 1000;
 }
 
-#aboutContent.show, #howToPlayContent.show, #settingsContent.show {
+#aboutContent.show, #howToPlayContent.show, #settingsContent.show, #privacyContent.show {
   opacity: 1;
   clip-path: circle(100% at 50% 50%);
 }
@@ -533,12 +533,14 @@ header div h1 {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-#howToPlayContent h2 {
+#howToPlayContent h2,
+#privacyContent h2 {
   margin-top: 0;
   color: var(--green);
 }
 
-#howToPlayContent p strong {
+#howToPlayContent p strong,
+#privacyContent p strong {
   color: var(--linkColor);
 }
 
