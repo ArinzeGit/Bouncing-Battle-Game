@@ -1,6 +1,6 @@
 # Bouncing Battle
 
-![](assets/images/bouncingBattleScreenshot2.png)
+![](assets/gifs/bouncing-battle-preview.gif)
 
 ## Context and Description
 
